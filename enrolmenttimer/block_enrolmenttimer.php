@@ -57,23 +57,26 @@ class block_enrolmenttimer extends block_base {
 	    	$this->content->text .= 'You have no enrollment end time set.';
 	    }else{
 	    	$unitsToShow = get_config('enrolmenttimer', 'viewoptions');
-	    	if($unitsToShow == null){
+	    	if(empty($unitsToShow)){
 	    		//they have not selected any, so show all
 	    		$unitsToShow = getPossibleUnits();
+	    	}else{
+	    		//have the selected units, but we only have id's for their values
+	    		$unitsToShow = getSelectedUnitsTextValues($unitsToShow);
 	    	}
 
 	    	$this->content->text .= 'You have ';
 	    	foreach($timeLeft as $unit => $count){
-		    	if(in_array($unitsToShow, $unit)){
+		    	if(in_array($unit, $unitsToShow)){
 			    	$this->content->text .= '<span class=".'.$unit.'">'.$timeLeft[$unit].'</span> ';
 			    	if($timeLeft[$unit] > 1){
-			    		$this->content->text .= $unit.'s ';
-			    	}else{
 			    		$this->content->text .= $unit.' ';
+			    	}else{
+			    		$this->content->text .= rtrim($unit, "s").' ';
 			    	}
 			    }
 		    }
-		    $this->content->text .= ' left to access this course';
+		    $this->content->text .= ' left to access this course.';
 	    }   
 
 	    $this->content->text .= '</p>';

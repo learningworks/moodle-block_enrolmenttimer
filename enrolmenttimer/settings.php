@@ -57,7 +57,7 @@ if ($ADMIN->fulltree) {
         get_string('viewoptions', 'block_enrolmenttimer'), 
         get_string('viewoptions_desc', 'block_enrolmenttimer'),
         array_keys($options), 
-        $options
+        array_values($options)
     ));
 
     $settings->add(new admin_setting_heading('notificationsheadingalert',

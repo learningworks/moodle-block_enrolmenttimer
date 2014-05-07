@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
 	$sql = '
-    	SELECT ue.id, ue.timestart, ue.timeend
+    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
       	FROM mdl_user_enrolments ue
       	JOIN mdl_enrol e on ue.enrolid = e.id
      	WHERE ue.userid = ? AND e.courseid = ?';
@@ -48,25 +48,30 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
 		$record = 0;
 	}else{
 		$records = $DB->get_records_sql($sql, array($USER->id, $COURSE->id));
-		$record = $records[$USER->id];
+		if(isset($records[$USER->id])){
+			$record = $records[$USER->id];
+		}else{
+			$record = 0;
+		}
 	}
 
 	// $record = array();
  	// $record['timeend'] = 1434238823;
+ 	// var_dump($record);
 
-	if($record == 0 || $record['timeend'] == 0){
+	if($record->timeend == 0 || !is_object($record)){
 		return false;
 	}else{
-		$timeDifference = $record['timeend'] - time();
+		$timeDifference = (int)$record->timeend - time();
 		
 		$tokens = array (
-	        31536000 => 'year',
-	        2592000 => 'month',
-	        604800 => 'week',
-	        86400 => 'day',
-	        3600 => 'hour',
-	        60 => 'minute',
-	        1 => 'second'
+	        31536000 => 'years',
+	        2592000 => 'months',
+	        604800 => 'weeks',
+	        86400 => 'days',
+	        3600 => 'hours',
+	        60 => 'minutes',
+	        1 => 'seconds'
 	    );
 
 	    $result = array();
@@ -85,4 +90,15 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
 
 function getPossibleUnits(){
 	return array('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds');
+}
+
+function getSelectedUnitsTextValues($idstring){
+	$idarray = explode(',', $idstring);
+	$possibleUnits = getPossibleUnits();
+	$output = array();
+	foreach($idarray as $key => $value){
+		array_push($output, $possibleUnits[$value]);
+	}
+
+	return $output;
 }
