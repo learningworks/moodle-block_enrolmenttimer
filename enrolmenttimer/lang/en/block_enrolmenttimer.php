@@ -27,6 +27,9 @@ $string['pluginname'] = 'Enrolment Timer Block';
 $string['enrolmenttimer'] = 'Enrolment Timer';
 $string['enrolmenttimer:addinstance'] = 'Add a new Enrolment Timer block';
 $string['instance_title'] = 'Set the title of this block instance';
+$string['settings_notifications_alert'] = 'Alert Email Notifications Settings';
+$string['settings_notifications_completion'] = 'Completion Email Notifications Settings';
+$string['settings_general'] = 'General Settings';
 
 $string['editinstancetitles'] = 'Edit Instance Titles';
 $string['editinstancetitles_help'] = 'Enable teachers to edit the titles of each istance of this block';

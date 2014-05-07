@@ -29,6 +29,9 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
 
     /** Settings */
+    $settings->add(new admin_setting_heading('notificationsheadinggeneral',
+        get_string('settings_general', 'block_enrolmenttimer'), ''));
+
     $settings->add(new admin_setting_configcheckbox(
         'enrolmenttimer/editinstancetitles', 
         get_string('editinstancetitles', 'block_enrolmenttimer'),
@@ -36,34 +39,37 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $settings->add(new admin_setting_heading('notificationsheadingalert',
+        get_string('settings_notifications_alert', 'block_enrolmenttimer'), ''));
+
     $settings->add(new admin_setting_configcheckbox(
     	'enrolmenttimer/timeleftmessagechk', 
     	get_string('timeleftmessagechk', 'block_enrolmenttimer'),
         get_string('timeleftmessagechk_help', 'block_enrolmenttimer'),
-        1
+        0
     ));
 
-    $settings->add(new admin_setting_configtext(
-    	'enrolmenttimer/timeleftmessage', 
-    	get_string('timeleftmessage', 'block_enrolmenttimer'),
-        get_string('timeleftmessage_help', 'block_enrolmenttimer'), 
-        null, 
-        PARAM_URL
+    $settings->add(new admin_setting_configtextarea(
+        'enrolmenttimer/timeleftmessage', 
+        get_string('timeleftmessage','block_enrolmenttimer'),
+        get_string('timeleftmessage', 'block_enrolmenttimer'),
+        ''
     ));
-    //$settings->disabledIf('enrolmenttimer/timeleftmessage', 'enrolmenttimer/timeleftmessagechk', 'checked');
+
+    $settings->add(new admin_setting_heading('notificationsheadingcompletion',
+        get_string('settings_notifications_completion', 'block_enrolmenttimer'), ''));
 
     $settings->add(new admin_setting_configcheckbox(
     	'enrolmenttimer/completionsmessagechk', 
     	get_string('completionsmessagechk', 'block_enrolmenttimer'),
         get_string('completionsmessagechk_help', 'block_enrolmenttimer'),
-        1
+        0
     ));
 
-    $settings->add(new admin_setting_configtext(
-    	'enrolmenttimer/completionsmessage', 
-    	get_string('completionsmessage', 'block_enrolmenttimer'),
-        get_string('completionsmessage_help', 'block_enrolmenttimer'), 
-        null, 
-        PARAM_URL
+    $settings->add(new admin_setting_configtextarea(
+        'enrolmenttimer/completionsmessage', 
+        get_string('completionsmessage','block_enrolmenttimer'),
+        get_string('completionsmessage', 'block_enrolmenttimer'),
+        ''
     ));
 }
