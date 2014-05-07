@@ -32,15 +32,17 @@ $string['settings_notifications_completion'] = 'Completion Email Notifications S
 $string['settings_notifications_defaults'] = 'Set defaults for instance settings';
 $string['settings_general'] = 'General Settings';
 
-$string['editinstancetitles'] = 'Edit Instance Titles';
-$string['editinstancetitles_help'] = 'Enable teachers to edit the titles of each istance of this block';
-
+$string['forceDefaults'] = 'Force Default Values';
+$string['forceDefaults_help'] = 'Disables the ability for teachers to change the settings for each block instance';
 $string['activecountdown'] = 'Actively count down';
-$string['activecountdown_help'] = 'Actively count down the remaining time the student has to access the course';
-
+$string['activecountdown_help'] = 'Actively count down the remaining time the student has to access the course using javascript';
 $string['viewoptions'] = 'Increments Shown';
 $string['viewoptions_desc'] = 'Select the increments to show in the block';
 
+$string['daystoalertenrolmentend'] = 'Days to alert on';
+$string['daystoalertenrolmentend_help'] = 'The amount of days before the enrollment ends at which to send the alert email';
+$string['completionpercentage'] = 'Notification percentage';
+$string['completionpercentage_help'] = 'This is the percentage the student must aquire in the \'Course Total\' for the completion email to be sent to them';
 $string['timeleftmessagechk'] = 'Enable Time Warning Email';
 $string['timeleftmessagechk_help'] = 'Enables/Disables alert email';
 $string['timeleftmessage'] = 'Time Remaining Warning Message';

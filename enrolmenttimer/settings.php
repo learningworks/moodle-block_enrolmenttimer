@@ -30,38 +30,31 @@ if ($ADMIN->fulltree) {
 
     require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
 
-    /** Settings */
+    /** 
+    *   General Settings
+    */
     $settings->add(new admin_setting_heading('notificationsheadinggeneral',
         get_string('settings_general', 'block_enrolmenttimer'), ''));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/editinstancetitles', 
-        get_string('editinstancetitles', 'block_enrolmenttimer'),
-        get_string('editinstancetitles_help', 'block_enrolmenttimer'),
+        'enrolmenttimer/forceDefaults', 
+        get_string('forceDefaults', 'block_enrolmenttimer'),
+        get_string('forceDefaults_help', 'block_enrolmenttimer'),
         0
     ));
 
-    $settings->add(new admin_setting_heading('notificationsheadingdefaults',
-        get_string('settings_notifications_defaults', 'block_enrolmenttimer'), ''));
-
-    $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/activecountdown', 
-        get_string('activecountdown', 'block_enrolmenttimer'),
-        get_string('activecountdown_help', 'block_enrolmenttimer'),
-        0
-    ));
-
-    $options = getPossibleUnits();
-    $settings->add(new admin_setting_configmultiselect(
-        'enrolmenttimer/viewoptions',
-        get_string('viewoptions', 'block_enrolmenttimer'), 
-        get_string('viewoptions_desc', 'block_enrolmenttimer'),
-        array_keys($options), 
-        array_values($options)
-    ));
-
+    /** 
+    *   Enrolment Ending Alert Settings
+    */
     $settings->add(new admin_setting_heading('notificationsheadingalert',
         get_string('settings_notifications_alert', 'block_enrolmenttimer'), ''));
+
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/daystoalertenrolmentend', 
+        get_string('daystoalertenrolmentend','block_enrolmenttimer'),
+        get_string('daystoalertenrolmentend_help', 'block_enrolmenttimer'),
+        '10'
+    ));
 
     $settings->add(new admin_setting_configcheckbox(
     	'enrolmenttimer/timeleftmessagechk', 
@@ -73,10 +66,13 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtextarea(
         'enrolmenttimer/timeleftmessage', 
         get_string('timeleftmessage','block_enrolmenttimer'),
-        get_string('timeleftmessage', 'block_enrolmenttimer'),
+        get_string('timeleftmessage_help', 'block_enrolmenttimer'),
         ''
     ));
 
+    /** 
+    *   Course Completed Message Settings
+    */
     $settings->add(new admin_setting_heading('notificationsheadingcompletion',
         get_string('settings_notifications_completion', 'block_enrolmenttimer'), ''));
 
@@ -90,7 +86,36 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtextarea(
         'enrolmenttimer/completionsmessage', 
         get_string('completionsmessage','block_enrolmenttimer'),
-        get_string('completionsmessage', 'block_enrolmenttimer'),
+        get_string('completionsmessage_help', 'block_enrolmenttimer'),
         ''
+    ));
+
+    /** 
+    *   Default Settings
+    */
+    $settings->add(new admin_setting_heading('notificationsheadingdefaults',
+        get_string('settings_notifications_defaults', 'block_enrolmenttimer'), ''));
+
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/completionpercentage', 
+        get_string('completionpercentage','block_enrolmenttimer'),
+        get_string('completionpercentage_help', 'block_enrolmenttimer'),
+        '100'
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/activecountdown', 
+        get_string('activecountdown', 'block_enrolmenttimer'),
+        get_string('activecountdown_help', 'block_enrolmenttimer'),
+        1
+    ));
+
+    $options = getPossibleUnits();
+    $settings->add(new admin_setting_configmultiselect(
+        'enrolmenttimer/viewoptions',
+        get_string('viewoptions', 'block_enrolmenttimer'), 
+        get_string('viewoptions_desc', 'block_enrolmenttimer'),
+        array_keys($options), 
+        array_values($options)
     ));
 }

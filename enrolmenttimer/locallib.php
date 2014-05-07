@@ -35,18 +35,20 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $filepath - filepath of the XML file to read in
  * @return array from the XML file
  */
-function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
-	$sql = '
-    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
-      	FROM mdl_user_enrolments ue
-      	JOIN mdl_enrol e on ue.enrolid = e.id
-     	WHERE ue.userid = ? AND e.courseid = ?';
+function getEnrolmentPeriodRemaining($unitsToShow){
+	global $COURSE, $USER, $DB, $CFG;
 
  	$context = context_course::instance($COURSE->id);
 	
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
+		$sql = '
+	    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
+	      	FROM mdl_user_enrolments ue
+	      	JOIN mdl_enrol e on ue.enrolid = e.id
+	     	WHERE ue.userid = ? AND e.courseid = ?
+	    ';
 		$records = $DB->get_records_sql($sql, array($USER->id, $COURSE->id));
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
@@ -59,7 +61,7 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
  	// $record['timeend'] = 1434238823;
  	// var_dump($record);
 
-	if($record->timeend == 0 || !is_object($record)){
+	if(!is_object($record) || $record->timeend == 0 ){
 		return false;
 	}else{
 		$timeDifference = (int)$record->timeend - time();
@@ -76,12 +78,22 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
 
 	    $result = array();
 
+    	if(empty($unitsToShow)){
+    		//they have not selected any, so show all
+    		$unitsToShow = getPossibleUnits();
+    	}else{
+    		//have the selected units, but we only have id's for their values
+    		$unitsToShow = getSelectedUnitsTextValues($unitsToShow);
+    	}
+
 	    foreach($tokens as $unit => $text){
-	    	if($timeDifference > $unit){
-	    		$count = floor($timeDifference/$unit);
-	    		$result[$text] = $count;
-	    		$timeDifference = $timeDifference-($count*$unit); 
-	    	}
+	    	if(in_array($text, $unitsToShow)){
+		    	if($timeDifference > $unit){
+		    		$count = floor($timeDifference/$unit);
+		    		$result[$text] = $count;
+		    		$timeDifference = $timeDifference-($count*$unit); 
+		    	}
+		    }
 	    }
 
 		return $result;

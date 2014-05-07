@@ -14,6 +14,24 @@ class block_enrolmenttimer extends block_base {
 		} else {
 			$this->title = get_string('enrolmenttimer', 'block_enrolmenttimer');
 		}
+
+		if(!empty($this->config->instance_completionpercentage)) {
+			$this->completionpercentage = $this->config->instance_completionpercentage;
+		} else {
+			$this->completionpercentage = get_config('enrolmenttimer', 'completionpercentage');
+		}
+
+		if(!empty($this->config->instance_activecountdown)) {
+			$this->activecountdown = $this->config->instance_activecountdown;
+		} else {
+			$this->activecountdown = get_config('enrolmenttimer', 'activecountdown');
+		}
+
+		if(!empty($this->config->instance_viewoptions)) {
+			$this->viewoptions = $this->config->instance_viewoptions;
+		} else {
+			$this->viewoptions = get_config('enrolmenttimer', 'viewoptions');
+		}
 	}//closing specialization
 
 	public function cron() {
@@ -49,32 +67,33 @@ class block_enrolmenttimer extends block_base {
 	    	return $this->content;
 	    }
 
-	    $timeLeft = getEnrolmentPeriodRemaining($COURSE, $USER, $DB);
+	    $timeLeft = getEnrolmentPeriodRemaining($this->viewoptions);
 	    $this->content = new stdClass;
-	    $this->content->text = '<p class="">';
+	    $this->content->text .= '<p';
+		    if($this->activecountdown == 1){
+		    	$this->content->text .= ' class="active"';
+		    }
+	    $this->content->text .= '>';
 
 	    if(!$timeLeft){
 	    	$this->content->text .= 'You have no enrollment end time set.';
 	    }else{
-	    	$unitsToShow = get_config('enrolmenttimer', 'viewoptions');
-	    	if(empty($unitsToShow)){
-	    		//they have not selected any, so show all
-	    		$unitsToShow = getPossibleUnits();
-	    	}else{
-	    		//have the selected units, but we only have id's for their values
-	    		$unitsToShow = getSelectedUnitsTextValues($unitsToShow);
-	    	}
-
 	    	$this->content->text .= 'You have ';
+	    	$count = 1;
+	    	echo $count . ' -- ' . count($timeLeft); 
 	    	foreach($timeLeft as $unit => $count){
-		    	if(in_array($unit, $unitsToShow)){
-			    	$this->content->text .= '<span class=".'.$unit.'">'.$timeLeft[$unit].'</span> ';
-			    	if($timeLeft[$unit] > 1){
-			    		$this->content->text .= $unit.' ';
-			    	}else{
-			    		$this->content->text .= rtrim($unit, "s").' ';
-			    	}
-			    }
+		    	if($count == count($timeLeft)){
+		    		$this->content->text .= ' and ';
+		    	}
+
+		    	$this->content->text .= '<span class=".'.$unit.'">'.$count.'</span> ';
+		    	if($count > 1){
+		    		$this->content->text .= $unit.' ';
+		    	}else{
+		    		$this->content->text .= rtrim($unit, "s").' ';
+		    	}
+
+		    	$count++;
 		    }
 		    $this->content->text .= ' left to access this course.';
 	    }   
