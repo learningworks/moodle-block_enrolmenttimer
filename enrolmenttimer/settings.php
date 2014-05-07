@@ -28,6 +28,8 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
+    require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
+
     /** Settings */
     $settings->add(new admin_setting_heading('notificationsheadinggeneral',
         get_string('settings_general', 'block_enrolmenttimer'), ''));
@@ -37,6 +39,25 @@ if ($ADMIN->fulltree) {
         get_string('editinstancetitles', 'block_enrolmenttimer'),
         get_string('editinstancetitles_help', 'block_enrolmenttimer'),
         0
+    ));
+
+    $settings->add(new admin_setting_heading('notificationsheadingdefaults',
+        get_string('settings_notifications_defaults', 'block_enrolmenttimer'), ''));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/activecountdown', 
+        get_string('activecountdown', 'block_enrolmenttimer'),
+        get_string('activecountdown_help', 'block_enrolmenttimer'),
+        0
+    ));
+
+    $options = getPossibleUnits();
+    $settings->add(new admin_setting_configmultiselect(
+        'enrolmenttimer/viewoptions',
+        get_string('viewoptions', 'block_enrolmenttimer'), 
+        get_string('viewoptions_desc', 'block_enrolmenttimer'),
+        array_keys($options), 
+        $options
     ));
 
     $settings->add(new admin_setting_heading('notificationsheadingalert',

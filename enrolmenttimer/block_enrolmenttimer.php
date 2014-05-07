@@ -51,16 +51,30 @@ class block_enrolmenttimer extends block_base {
 
 	    $timeLeft = getEnrolmentPeriodRemaining($COURSE, $USER, $DB);
 	    $this->content = new stdClass;
-	    $this->content->text = '<p>';
+	    $this->content->text = '<p class="">';
 
-	    foreach($timeLeft as $unit => $count){
-	    	$this->content->text .= '<span class=".'.$unit.'">'.$timeLeft[$unit].'</span> ';
-	    	if($timeLeft[$unit] > 1){
-	    		$this->content->text .= $unit.'s ';
-	    	}else{
-	    		$this->content->text .= $unit.' ';
+	    if(!$timeLeft){
+	    	$this->content->text .= 'You have no enrollment end time set.';
+	    }else{
+	    	$unitsToShow = get_config('enrolmenttimer', 'viewoptions');
+	    	if($unitsToShow == null){
+	    		//they have not selected any, so show all
+	    		$unitsToShow = getPossibleUnits();
 	    	}
-	    }	   
+
+	    	$this->content->text .= 'You have ';
+	    	foreach($timeLeft as $unit => $count){
+		    	if(in_array($unitsToShow, $unit)){
+			    	$this->content->text .= '<span class=".'.$unit.'">'.$timeLeft[$unit].'</span> ';
+			    	if($timeLeft[$unit] > 1){
+			    		$this->content->text .= $unit.'s ';
+			    	}else{
+			    		$this->content->text .= $unit.' ';
+			    	}
+			    }
+		    }
+		    $this->content->text .= ' left to access this course';
+	    }   
 
 	    $this->content->text .= '</p>';
 	    $this->content->footer = '';

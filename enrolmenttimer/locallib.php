@@ -41,13 +41,20 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
       	FROM mdl_user_enrolments ue
       	JOIN mdl_enrol e on ue.enrolid = e.id
      	WHERE ue.userid = ? AND e.courseid = ?';
-	
-	//$records = $DB->get_records_sql($sql, array($USER->id, $COURSE->id));
-	//$record = $records[$USER->id];
-	$record = array();
-    $record['timeend'] = 1434238823;
 
-	if($record['timeend'] == 0){
+ 	$context = context_course::instance($COURSE->id);
+	
+	if(has_capability('moodle/site:config', $context)){
+		$record = 0;
+	}else{
+		$records = $DB->get_records_sql($sql, array($USER->id, $COURSE->id));
+		$record = $records[$USER->id];
+	}
+
+	// $record = array();
+ 	// $record['timeend'] = 1434238823;
+
+	if($record == 0 || $record['timeend'] == 0){
 		return false;
 	}else{
 		$timeDifference = $record['timeend'] - time();
@@ -74,4 +81,8 @@ function getEnrolmentPeriodRemaining($COURSE, $USER, $DB){
 
 		return $result;
 	}
+}
+
+function getPossibleUnits(){
+	return array('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds');
 }

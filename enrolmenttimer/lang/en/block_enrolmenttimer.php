@@ -29,10 +29,17 @@ $string['enrolmenttimer:addinstance'] = 'Add a new Enrolment Timer block';
 $string['instance_title'] = 'Set the title of this block instance';
 $string['settings_notifications_alert'] = 'Alert Email Notifications Settings';
 $string['settings_notifications_completion'] = 'Completion Email Notifications Settings';
+$string['settings_notifications_defaults'] = 'Set defaults for instance settings';
 $string['settings_general'] = 'General Settings';
 
 $string['editinstancetitles'] = 'Edit Instance Titles';
 $string['editinstancetitles_help'] = 'Enable teachers to edit the titles of each istance of this block';
+
+$string['activecountdown'] = 'Actively count down';
+$string['activecountdown_help'] = 'Actively count down the remaining time the student has to access the course';
+
+$string['viewoptions'] = 'Increments Shown';
+$string['viewoptions_desc'] = 'Select the increments to show in the block';
 
 $string['timeleftmessagechk'] = 'Enable Time Warning Email';
 $string['timeleftmessagechk_help'] = 'Enables/Disables alert email';
