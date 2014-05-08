@@ -8,15 +8,6 @@ class block_enrolmenttimer extends block_base {
     	return true;
     }//closing has_config()
 
-    public function applicable_formats() {
-	  return array(
-	           'site-index' => false,
-	          'course-view' => true, 
-	   'course-view-social' => true,
-	                  'mod' => true
-	  );
-	}//closing //applicable_formats()
-
   	public function specialization() {
 		if (!empty($this->config->title)) {
 			$this->title = $this->config->title;
@@ -48,20 +39,22 @@ class block_enrolmenttimer extends block_base {
 	    global $DB; // Global database object
  
 	    // Get the instances of the block
-	    $instances = $DB->get_records( 'block_instances', array('blockname'=>'enrolmenttimer') );
+	    $instances = $DB->get_records( 'block_instance', array('blockid'=>'enrolmenttimer') );
 	 
 	    // Iterate over the instances
 	    foreach ($instances as $instance) {
 	        // Recreate block object
 	        $block = block_instance('enrolmenttimer', $instance);
-	 		
-	        $context = $block
-	        $course = $DB->get_content('course', array('id'=>));
-	        $users = 
-	        //mtrace($block->page);
+	 
+	        // $block is now the equivalent of $this in 'normal' block
+	        // EG $someconfigitem = $block->config->item2;
+	        
+	        //new way to pull config var's
+	    	//$allowHTML = get_config('simplehtml', 'Allow_HTML');
+
+	        // do something
 	    }
 
-	    mtrace('ending.................');
 	    return true;
 
 	}//closing cron()
