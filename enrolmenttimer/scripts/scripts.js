@@ -66,18 +66,16 @@ function makeTimestamp(){
 				break;
 		}
 	};
-	console.log('time -' + timestamp);
 }
 
 function updateLiveCounter(){
-	console.log(arrayKeys);
 	timestamp--;
 	var time = timestamp;
 	var tokens = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
 	var units = ['31536000', '2592000', '604800', '86400', '3600', '60', '1'];
 
-	for (var i = 0; i <= tokens.length; i++) {
-		if($.inArray(tokens[i], arrayKeys)){
+	for (var i = 0; i < tokens.length; i++) {
+		if($.inArray(tokens[i], arrayKeys) != -1){
 			if(time > units[i]){
 				var count = Math.floor(time / units[i]);
 				updateMainCounter(tokens[i], count);
@@ -88,10 +86,10 @@ function updateLiveCounter(){
 }
 
 function updateMainCounter(counter, time){
-	// var html = '';
-	// for (var i = 0; i < time.length; i++) {
-	// 	html += '<span class="timerNumChar" data-id="'+ i +'">'+ time[i] +'</span>';
-	// };
-	// $('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id='+counter+']').html(html);
+	var html = '';
+	for (var i = 0; i < time.toString().length; i++) {
+		html += '<span class="timerNumChar" data-id="'+ i +'">'+ time.toString().charAt(i) +'</span>';
+	};
+	$('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="'+counter+'"]').html(html);
 	$('.block_enrolmenttimer .active .text-desc .'+counter).html(time);
 }
