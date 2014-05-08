@@ -1,0 +1,16 @@
+.block_enrolmenttimer .content .timerNum{display: inline-block;}
+.block_enrolmenttimer .content .timerNumChar{
+	background: url('/blocks/enrolmenttimer/pix/background.png') repeat-x;
+	color: #fff;
+	margin: 2px;
+	padding: 3px;
+	font-size: 1.3em;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.block_enrolmenttimer .content .seperator{color: #000; display: inline-block; font-weight: bold;}
+.block_enrolmenttimer .content .timer-wrapper{margin: 1em auto; display: table;}
+.block_enrolmenttimer .content p{text-align: center; margin:0;}
+.block_enrolmenttimer .content .text-desc{font-size: 0.65em;}
+.block_enrolmenttimer .content .sub-text{font-size: 0.8em;}

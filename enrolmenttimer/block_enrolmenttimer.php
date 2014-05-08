@@ -72,7 +72,7 @@ class block_enrolmenttimer extends block_base {
 
 	    $timeLeft = getEnrolmentPeriodRemaining($this->viewoptions);
 	    $this->content = new stdClass;
-	    $this->content->text .= '<p';
+	    $this->content->text .= '<div';
 		    if($this->activecountdown == 1){
 		    	$this->content->text .= ' class="active"';
 		    }
@@ -81,27 +81,43 @@ class block_enrolmenttimer extends block_base {
 	    if(!$timeLeft){
 	    	$this->content->text .= 'You have no enrollment end time set.';
 	    }else{
-	    	$this->content->text .= 'You have ';
-	    	$count = 1;
-	    	echo $count . ' -- ' . count($timeLeft); 
+	    	//$this->content->text .= 'You have ';
+	    	$counter = 1;
+	    	$text = '';
+
+	    	$this->content->text .= '<div class="timer-wrapper">';
 	    	foreach($timeLeft as $unit => $count){
-		    	if($count == count($timeLeft)){
-		    		$this->content->text .= ' and ';
+    			$stringCount = (string)$count;
+    			$countLength = strlen($stringCount);
+		    	
+		    	$this->content->text .= '<div class="timerNum" data-id="'.$unit.'">';
+		    	for ($i=0; $i < $countLength; $i++) { 
+		    		$this->content->text .= '<span class="timerNumChar" data-id="'.$i.'">'.$stringCount[$i].'</span>';
 		    	}
+		    	$this->content->text .= '</div>';
+		    	
+		    	if($counter != count($timeLeft)){
+		    		$this->content->text .= '<div class="seperator">:</div>';
+		    	}
+		    	
 
-		    	$this->content->text .= '<span class=".'.$unit.'">'.$count.'</span> ';
+		    	$text .= '<span class="'.$unit.'">'.$count.'</span> ';
 		    	if($count > 1){
-		    		$this->content->text .= $unit.' ';
+		    		$text .= $unit.' ';
 		    	}else{
-		    		$this->content->text .= rtrim($unit, "s").' ';
+		    		$text .= rtrim($unit, "s").' ';
 		    	}
 
-		    	$count++;
+		    	$counter++;
+
 		    }
-		    $this->content->text .= ' left to access this course.';
+		    $this->content->text .= '</div>';
+		    $this->content->text .= '<p class="text-desc">'.$text.'</p>';
+		    $this->content->text .= '<p class="sub-text">until your enrollment expires</p>';
 	    }   
 
-	    $this->content->text .= '</p>';
+	    $this->content->text .= '</div>';
+	    
 	    $this->content->footer = '';
 
 	    return $this->content;

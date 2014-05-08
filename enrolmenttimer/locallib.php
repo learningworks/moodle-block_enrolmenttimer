@@ -66,6 +66,8 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 	}else{
 		$timeDifference = (int)$record->timeend - time();
 		
+		var_dump($timeDifference);
+		
 		$tokens = array (
 	        31536000 => 'years',
 	        2592000 => 'months',
