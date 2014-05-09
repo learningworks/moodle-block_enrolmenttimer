@@ -43,13 +43,7 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
-		$sql = '
-	    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
-	      	FROM mdl_user_enrolments ue
-	      	JOIN mdl_enrol e on ue.enrolid = e.id
-	     	WHERE ue.userid = ? AND e.courseid = ?
-	    ';
-		$records = $DB->get_records_sql($sql, array($USER->id, $COURSE->id));
+		$records = getEnrolmentRecords($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
 		}else{
@@ -100,6 +94,18 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 
 		return $result;
 	}
+}
+
+function getEnrolmentRecords($userid, $courseid){
+	global $DB;
+
+	$sql = '
+	    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
+	      	FROM mdl_user_enrolments ue
+	      	JOIN mdl_enrol e on ue.enrolid = e.id
+	     	WHERE ue.userid = ? AND e.courseid = ?
+	    ';
+	return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
 function getPossibleUnits(){

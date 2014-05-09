@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Enrolment Timer Block';
+$string['pluginname'] = 'Enrolment Timer';
 $string['enrolmenttimer'] = 'Enrolment Timer';
 $string['enrolmenttimer:addinstance'] = 'Add a new Enrolment Timer block';
 $string['instance_title'] = 'Set the title of this block instance';
@@ -41,15 +41,19 @@ $string['viewoptions_desc'] = 'Select the increments to show in the block';
 
 $string['daystoalertenrolmentend'] = 'Days to alert on';
 $string['daystoalertenrolmentend_help'] = 'The amount of days before the enrollment ends at which to send the alert email';
-$string['completionpercentage'] = 'Notification percentage';
-$string['completionpercentage_help'] = 'This is the percentage the student must aquire in the \'Course Total\' for the completion email to be sent to them';
+$string['getmoretimeurl'] = 'Get more time URL';
+$string['getmoretimeurl_help'] = 'URL to a page where the student can request or purchase a enrolment period extension';
 $string['timeleftmessagechk'] = 'Enable Time Warning Email';
 $string['timeleftmessagechk_help'] = 'Enables/Disables alert email';
 $string['timeleftmessage'] = 'Time Remaining Warning Message';
-$string['timeleftmessage_help'] = 'Email that will be sent to the student advising how much time they have left on the course eg 10 days left';
+$string['timeleftmessage_help'] = 'Email that will be sent to the student advising how much time they have left on the course eg 10 days left. Here you can use the following customisations; [[user_name]] [[course_name]] [[days_to_alert]] [[url_link]] (url_link uses the \'Get more time URL\')';
 
 $string['completionsmessagechk'] = 'Enable Completion Email';
 $string['completionsmessagechk_help'] = 'Enables/Disables the completion email';
 $string['completionsmessage'] = 'Course Completion Email';
-$string['completionsmessage_help'] = 'Email that will be sent congratulating the student on completiong of the course';
+$string['completionsmessage_help'] = 'Email that will be sent congratulating the student on completing of the course. Here you can use the following customisations; [[user_name]] [[course_name]] [[url_link]] (url_link uses the \'Left over time URL\')';
+$string['completionpercentage'] = 'Notification percentage';
+$string['completionpercentage_help'] = 'This is the percentage the student must aquire in the \'Course Total\' for the completion email to be sent to them';
+$string['timeleftoverurl'] = 'Left over time URL';
+$string['timeleftoverurl_help'] = 'URL for student to request the remainder of their time to be allocated to another course';
 

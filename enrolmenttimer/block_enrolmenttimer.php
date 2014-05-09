@@ -44,9 +44,17 @@ class block_enrolmenttimer extends block_base {
 	}//closing specialization
 
 	public function cron() {
+		global $CFG;
 	    mtrace( "block/enrolmenttimer - Cron is beginning" );
+	    require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
 	    global $DB; // Global database object
  
+	    if(get_config('enrolmenttimer', 'timeleftmessagechk') == 0 && get_config('enrolmenttimer', 'completionsmessagechk') == 0){
+			//neither of the cron emails are set to run so exit
+	    	mtrace('- no mail sent');
+	    	return true;
+	    }
+
 	    // Get the instances of the block
 	    $instances = $DB->get_records( 'block_instances', array('blockname'=>'enrolmenttimer') );
 	 
@@ -54,11 +62,75 @@ class block_enrolmenttimer extends block_base {
 	    foreach ($instances as $instance) {
 	        // Recreate block object
 	        $block = block_instance('enrolmenttimer', $instance);
-	 		
-	        $context = $block
-	        $course = $DB->get_content('course', array('id'=>));
-	        $users = 
-	        //mtrace($block->page);
+
+	        //get courseid of the course this instance is on
+	        $contextid = $block->instance->parentcontextid;
+	        $blockcontext = context::instance_by_id($contextid);
+	        $courseid = $blockcontext->instanceid;
+
+	        //get enrolled users from the course
+	        $course = $DB->get_record('course', array('id'=>$courseid));
+	        $coursecontext = context_course::instance($course->id);
+	        $users = get_role_users(5, $coursecontext);
+
+	        //loop through - check completion and days left alert
+	        foreach($users as $user){
+	        	//Send Notification Emails
+	        	if(get_config('enrolmenttimer', 'timeleftmessagechk') == 1){
+		        	$records = getEnrolmentRecords($user->id, $course->id);
+		        	if(isset($records[$user->id])){
+						$record = $records[$user->id];
+						if(is_object($record) || $record->timeend != 0 ){
+							//calculate timestamp at which to alert the user
+							$enrolmentEnd = (int)$record->timeend;
+							$enrolmentAlertPeriod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend')*86400;
+							$enrolmentAlertTime = $enrolmentEnd - $enrolmentAlertPeriod;
+
+							//calculate timestamp at which to stop alerting user
+							$enrolmentStopAlertPeriod = (int)$enrolmentAlertTime + 86400;
+
+							if($enrolmentAlertTime < time() && $enrolmentStopAlertPeriod > time()){
+								// Send the email to the user
+							    $from = core_user::get_support_user();
+							    $user->email = 'aaron.leggett@learningworks.co.nz';
+								$subject = get_string('newuser');
+								$body = get_config('enrolmenttimer', 'timeleftmessage');
+
+							    //personalise subject words
+								$body = str_replace("[[user_name]]", $user->firstname, $body);
+								$body = str_replace("[[course_name]]", $course->fullname, $body);
+								$body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
+								$body = str_replace("[[link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
+
+							    email_to_user($user, $from, $subject, '', $body);
+							}
+						}
+					}
+				}
+
+				//Send Completion Emails
+				if(get_config('enrolmenttimer', 'completionsmessagechk') == 1){
+					$completion = $DB->get_record('course_completions', array('userid'=>$user->id, 'course'=>$course->id));
+					if($completion != false && $completion->timecompleted != NULL){
+						$completion = $completion->timecompleted;
+						if($completion > (time()-86400)){
+							// Send the email to the user
+						    $from = core_user::get_support_user();
+						    $user->email = 'aaron.leggett@learningworks.co.nz';
+							$subject = get_string('newuser');
+							$body = get_config('enrolmenttimer', 'completionmessage');
+
+
+							//personalise subject words
+							$body = str_replace("[[user_name]]", $user->firstname, $body);
+							$body = str_replace("[[course_name]]", $course->fullname, $body);
+							$body = str_replace("[[url_link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
+
+							email_to_user($user, $from, $subject, '', $body);
+						}
+					}
+				}
+	        }
 	    }
 
 	    mtrace('ending.................');

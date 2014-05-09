@@ -63,7 +63,21 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    $settings->add(new admin_setting_configtextarea(
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/getmoretimeurl', 
+        get_string('getmoretimeurl','block_enrolmenttimer'),
+        get_string('getmoretimeurl_help', 'block_enrolmenttimer'),
+        ''
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/contactusurl', 
+        get_string('contactusurl','block_enrolmenttimer'),
+        get_string('contactusurl_help', 'block_enrolmenttimer'),
+        ''
+    ));
+
+    $settings->add(new admin_setting_confightmleditor(
         'enrolmenttimer/timeleftmessage', 
         get_string('timeleftmessage','block_enrolmenttimer'),
         get_string('timeleftmessage_help', 'block_enrolmenttimer'),
@@ -83,7 +97,14 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    $settings->add(new admin_setting_configtextarea(
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/timeleftoverurl', 
+        get_string('timeleftoverurl','block_enrolmenttimer'),
+        get_string('timeleftoverurl_help', 'block_enrolmenttimer'),
+        ''
+    ));
+
+    $settings->add(new admin_setting_confightmleditor(
         'enrolmenttimer/completionsmessage', 
         get_string('completionsmessage','block_enrolmenttimer'),
         get_string('completionsmessage_help', 'block_enrolmenttimer'),
