@@ -100,7 +100,7 @@ class block_enrolmenttimer extends block_base {
 								$body = str_replace("[[user_name]]", $user->firstname, $body);
 								$body = str_replace("[[course_name]]", $course->fullname, $body);
 								$body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
-								$body = str_replace("[[link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
+								$body = str_replace("[[url_link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
 
 							    email_to_user($user, $from, $subject, '', $body);
 							}
@@ -132,8 +132,7 @@ class block_enrolmenttimer extends block_base {
 				}
 	        }
 	    }
-
-	    mtrace('ending.................');
+	    
 	    return true;
 
 	}//closing cron()
