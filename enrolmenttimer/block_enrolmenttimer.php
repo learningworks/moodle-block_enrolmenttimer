@@ -100,7 +100,6 @@ class block_enrolmenttimer extends block_base {
 								$body = str_replace("[[user_name]]", $user->firstname, $body);
 								$body = str_replace("[[course_name]]", $course->fullname, $body);
 								$body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
-								$body = str_replace("[[url_link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
 
 							    email_to_user($user, $from, $subject, '', $body);
 							}
@@ -124,7 +123,6 @@ class block_enrolmenttimer extends block_base {
 							//personalise subject words
 							$body = str_replace("[[user_name]]", $user->firstname, $body);
 							$body = str_replace("[[course_name]]", $course->fullname, $body);
-							$body = str_replace("[[url_link]]", get_config('enrolmenttimer', 'timeleftoverurl'), $body);
 
 							email_to_user($user, $from, $subject, '', $body);
 						}
@@ -132,7 +130,7 @@ class block_enrolmenttimer extends block_base {
 				}
 	        }
 	    }
-	    
+
 	    return true;
 
 	}//closing cron()
@@ -162,24 +160,48 @@ class block_enrolmenttimer extends block_base {
 	    	//$this->content->text .= 'You have ';
 	    	$counter = 1;
 	    	$text = '';
+	    	$force2digits = get_config('enrolmenttimer', 'forceTwoDigits');
+	    	$displayLabels = get_config('enrolmenttimer', 'displayUnitLabels');
 
-	    	$this->content->text .= '<div class="timer-wrapper">';
+	    	$this->content->text .= '<hr>';
+	    	$this->content->text .= '<div class="visual-counter">';
+	    	$this->content->text .= '<div class="timer-wrapper"';
+	    	if($force2digits == 1){
+	    		$this->content->text .= ' data-id="force2" ';
+	    	}
+	    	$this->content->text .= '>';
 	    	foreach($timeLeft as $unit => $count){
     			$stringCount = (string)$count;
     			$countLength = strlen($stringCount);
-		    	
-		    	$this->content->text .= '<div class="timerNum" data-id="'.$unit.'">';
-		    	for ($i=0; $i < $countLength; $i++) { 
-		    		$this->content->text .= '<span class="timerNumChar" data-id="'.$i.'">'.$stringCount[$i].'</span>';
+
+		    	if($displayLabels == 1){
+		    		$this->content->text .= '<div class="numberTypeWrapper">';
 		    	}
+
+		    	$this->content->text .= '<div class="timerNum" data-id="'.$unit.'">';
+		    	
+		    	if($countLength == 1 && $force2digits == 1){
+		    		$this->content->text .= '<span class="timerNumChar" data-id="0">0</span>';
+		    		$this->content->text .= '<span class="timerNumChar" data-id="1">'.$stringCount.'</span>';
+		    	}else{
+		    		for ($i=0; $i < $countLength; $i++) { 
+			    		$this->content->text .= '<span class="timerNumChar" data-id="'.$i.'">'.$stringCount[$i].'</span>';
+			    	}
+		    	}
+		    	
 		    	$this->content->text .= '</div>';
 		    	
+		    	if($displayLabels == 1){
+		    		$this->content->text .= '<p>'.$unit.'</p></div>';
+		    	}		    	
+
 		    	if($counter != count($timeLeft)){
 		    		$this->content->text .= '<div class="seperator">:</div>';
 		    	}
 		    	
+		    	$displayTextCounter = get_config('enrolmenttimer', 'displayTextCounter');
 
-		    	$text .= '<span class="'.$unit.'">'.$count.'</span> ';
+	    		$text .= '<span class="'.$unit.'">'.$count.'</span> ';
 		    	if($count > 1){
 		    		$text .= $unit.' ';
 		    	}else{
@@ -190,8 +212,16 @@ class block_enrolmenttimer extends block_base {
 
 		    }
 		    $this->content->text .= '</div>';
-		    $this->content->text .= '<p class="text-desc">'.$text.'</p>';
-		    $this->content->text .= '<p class="sub-text">until your enrollment expires</p>';
+		    $this->content->text .= '</div>';
+		    $this->content->text .= '<hr>';
+		    $this->content->text .= '<div class="text-wrapper">';
+		    $this->content->text .= '<p class="text-desc"';
+			if($displayTextCounter == 1){
+    			$this->content->text .= ' style="display:none;"';
+    		}
+		    $this->content->text .= '>'.$text.'</p>';
+		    $this->content->text .= '<p class="sub-text">'.get_string('expirytext', 'block_enrolmenttimer').'</p>';
+		    $this->content->text .= '</div>';
 	    }   
 
 	    $this->content->text .= '</div>';

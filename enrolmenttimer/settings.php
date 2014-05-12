@@ -43,38 +43,45 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/displayUnitLabels', 
+        get_string('displayUnitLabels', 'block_enrolmenttimer'),
+        get_string('displayUnitLabels_help', 'block_enrolmenttimer'),
+        0
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/forceTwoDigits', 
+        get_string('forceTwoDigits', 'block_enrolmenttimer'),
+        get_string('forceTwoDigits_help', 'block_enrolmenttimer'),
+        0
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/displayTextCounter', 
+        get_string('displayTextCounter', 'block_enrolmenttimer'),
+        get_string('displayTextCounter_help', 'block_enrolmenttimer'),
+        1
+    ));
+
     /** 
     *   Enrolment Ending Alert Settings
     */
     $settings->add(new admin_setting_heading('notificationsheadingalert',
         get_string('settings_notifications_alert', 'block_enrolmenttimer'), ''));
 
-    $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/daystoalertenrolmentend', 
-        get_string('daystoalertenrolmentend','block_enrolmenttimer'),
-        get_string('daystoalertenrolmentend_help', 'block_enrolmenttimer'),
-        '10'
-    ));
-
     $settings->add(new admin_setting_configcheckbox(
-    	'enrolmenttimer/timeleftmessagechk', 
-    	get_string('timeleftmessagechk', 'block_enrolmenttimer'),
+        'enrolmenttimer/timeleftmessagechk', 
+        get_string('timeleftmessagechk', 'block_enrolmenttimer'),
         get_string('timeleftmessagechk_help', 'block_enrolmenttimer'),
         0
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/getmoretimeurl', 
-        get_string('getmoretimeurl','block_enrolmenttimer'),
-        get_string('getmoretimeurl_help', 'block_enrolmenttimer'),
-        ''
-    ));
-
-    $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/contactusurl', 
-        get_string('contactusurl','block_enrolmenttimer'),
-        get_string('contactusurl_help', 'block_enrolmenttimer'),
-        ''
+        'enrolmenttimer/daystoalertenrolmentend', 
+        get_string('daystoalertenrolmentend','block_enrolmenttimer'),
+        get_string('daystoalertenrolmentend_help', 'block_enrolmenttimer'),
+        '10'
     ));
 
     $settings->add(new admin_setting_confightmleditor(
@@ -98,10 +105,10 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/timeleftoverurl', 
-        get_string('timeleftoverurl','block_enrolmenttimer'),
-        get_string('timeleftoverurl_help', 'block_enrolmenttimer'),
-        ''
+        'enrolmenttimer/completionpercentage', 
+        get_string('completionpercentage','block_enrolmenttimer'),
+        get_string('completionpercentage_help', 'block_enrolmenttimer'),
+        '100'
     ));
 
     $settings->add(new admin_setting_confightmleditor(
@@ -116,13 +123,6 @@ if ($ADMIN->fulltree) {
     */
     $settings->add(new admin_setting_heading('notificationsheadingdefaults',
         get_string('settings_notifications_defaults', 'block_enrolmenttimer'), ''));
-
-    $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/completionpercentage', 
-        get_string('completionpercentage','block_enrolmenttimer'),
-        get_string('completionpercentage_help', 'block_enrolmenttimer'),
-        '100'
-    ));
 
     $settings->add(new admin_setting_configcheckbox(
         'enrolmenttimer/activecountdown', 

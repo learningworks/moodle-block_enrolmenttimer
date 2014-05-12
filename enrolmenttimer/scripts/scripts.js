@@ -1,6 +1,7 @@
 var options = [];
 var arrayKeys = [];
 var timestamp = 0;
+var forceTwoDigits = false;
 
 $(document).ready(function() {
 	console.log('loaded');
@@ -9,15 +10,20 @@ $(document).ready(function() {
 		populateWithData();
 		makeTimestamp();
 
+		console.log('here');
 		//create timer
 		window.setInterval(function(){
 			updateLiveCounter();
 		}, 1000);
 	}
+
+	if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0){
+		forceTwoDigits = true;
+	}
 });
 
 function getDisplayedOptions(){
-	var children = $('.block_enrolmenttimer .active .timer-wrapper').children('.timerNum');
+	var children = $('.block_enrolmenttimer .active .timer-wrapper').find('.timerNum');
 
 	for (var i = children.length - 1; i >= 0; i--) {
 		var arrayKey = $(children[i]).attr('data-id');
@@ -87,9 +93,15 @@ function updateLiveCounter(){
 
 function updateMainCounter(counter, time){
 	var html = '';
-	for (var i = 0; i < time.toString().length; i++) {
-		html += '<span class="timerNumChar" data-id="'+ i +'">'+ time.toString().charAt(i) +'</span>';
-	};
+	if(forceTwoDigits == true && time.toString().length == 1){
+		html += '<span class="timerNumChar" data-id="0">0</span>';
+		html += '<span class="timerNumChar" data-id="1">'+ time.toString() +'</span>';
+	}else{
+		for (var i = 0; i < time.toString().length; i++) {
+			html += '<span class="timerNumChar" data-id="'+ i +'">'+ time.toString().charAt(i) +'</span>';
+		};
+	}
+
 	$('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="'+counter+'"]').html(html);
 	$('.block_enrolmenttimer .active .text-desc .'+counter).html(time);
 }
