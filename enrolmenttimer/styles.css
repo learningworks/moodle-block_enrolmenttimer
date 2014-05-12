@@ -2,7 +2,7 @@
 .block_enrolmenttimer .content .noDateSet{text-align: center;}
 .block_enrolmenttimer .content .numberTypeWrapper{display: inline-block;}
 .block_enrolmenttimer .content .numberTypeWrapper .timerNum{display: block;}
-.block_enrolmenttimer .content .numberTypeWrapper p{font-size: 0.65em; text-align: center;}
+.block_enrolmenttimer .content .numberTypeWrapper p{font-size: 0.65em; text-align: center; margin: 0;}
 .block_enrolmenttimer .content .timerNumChar{
 	background: url('/blocks/enrolmenttimer/pix/background.png') repeat-x;
 	color: #fff;
