@@ -131,7 +131,8 @@ class block_enrolmenttimer extends block_base {
 								$body = str_replace("[[course_name]]", $course->fullname, $body);
 								$body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
 
-							    email_to_user($user, $from, $subject, '', $body);
+							    $textOnlyBody = preg_match("<[^>]*>", "", $body);
+								email_to_user($user, $from, $subject, $textOnlyBody, $body);
 							}
 						}
 					}
@@ -154,7 +155,8 @@ class block_enrolmenttimer extends block_base {
 							$body = str_replace("[[user_name]]", $user->firstname, $body);
 							$body = str_replace("[[course_name]]", $course->fullname, $body);
 
-							email_to_user($user, $from, $subject, '', $body);
+							$textOnlyBody = preg_match("<[^>]*>", "", $body);
+							email_to_user($user, $from, $subject, $textOnlyBody, $body);
 						}
 					}
 				}
