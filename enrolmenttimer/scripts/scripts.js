@@ -82,10 +82,12 @@ function updateLiveCounter(){
 
 	for (var i = 0; i < tokens.length; i++) {
 		if($.inArray(tokens[i], arrayKeys) != -1){
-			if(time > units[i]){
+			if(time >= units[i]){
 				var count = Math.floor(time / units[i]);
 				updateMainCounter(tokens[i], count);
 				time = time - (count*units[i]);
+			}else{
+				updateMainCounter(tokens[i], 0);
 			}
 		}
 	};

@@ -156,7 +156,6 @@ class block_enrolmenttimer extends block_base {
 
 	    if(!$timeLeft){
 	    	$displayNothingNoDateSet = get_config('enrolmenttimer', 'displayNothingNoDateSet');
-	    	//var_dump($displayNothingNoDateSet);
 	    	if($displayNothingNoDateSet == 1){
 	    		$this->content->text = '';
 	    		return $this->content;
@@ -170,6 +169,7 @@ class block_enrolmenttimer extends block_base {
 	    	$text = '';
 	    	$force2digits = get_config('enrolmenttimer', 'forceTwoDigits');
 	    	$displayLabels = get_config('enrolmenttimer', 'displayUnitLabels');
+	    	$displayTextCounter = get_config('enrolmenttimer', 'displayTextCounter');
 
 	    	$this->content->text .= '<hr>';
 	    	$this->content->text .= '<div class="visual-counter">';
@@ -206,8 +206,6 @@ class block_enrolmenttimer extends block_base {
 		    	if($counter != count($timeLeft)){
 		    		$this->content->text .= '<div class="seperator">:</div>';
 		    	}
-		    	
-		    	$displayTextCounter = get_config('enrolmenttimer', 'displayTextCounter');
 
 	    		$text .= '<span class="'.$unit.'">'.$count.'</span> ';
 		    	if($count > 1){
@@ -224,8 +222,8 @@ class block_enrolmenttimer extends block_base {
 		    $this->content->text .= '<hr>';
 		    $this->content->text .= '<div class="text-wrapper">';
 		    $this->content->text .= '<p class="text-desc"';
-			if($displayTextCounter == 1){
-    			$this->content->text .= ' style="display:none;"';
+			if($displayTextCounter == 0){
+    			$this->content->text .= ' style="display: none;"';
     		}
 		    $this->content->text .= '>'.$text.'</p>';
 		    $this->content->text .= '<p class="sub-text">'.get_string('expirytext', 'block_enrolmenttimer').'</p>';
