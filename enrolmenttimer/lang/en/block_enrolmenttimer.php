@@ -27,6 +27,7 @@ $string['pluginname'] = 'Enrolment Timer';
 $string['enrolmenttimer'] = 'Enrolment Timer';
 $string['enrolmenttimer:addinstance'] = 'Add a new Enrolment Timer block';
 $string['expirytext'] = 'until your enrollment expires';
+$string['noDateSet'] = 'Your enrolment does not expire';
 $string['instance_title'] = 'Set the title of this block instance';
 $string['settings_notifications_alert'] = 'Alert Email Notifications Settings';
 $string['settings_notifications_completion'] = 'Completion Email Notifications Settings';
@@ -38,6 +39,8 @@ $string['displayTextCounter'] = 'Display Text Counter';
 $string['displayTextCounter_help'] = 'Displays the text counter that sits below the main counter';
 $string['forceTwoDigits'] = 'Force 2 Digits';
 $string['forceTwoDigits_help'] = 'Forces the main countdown timer to always show atleast 2 digits (eg 01 hours left)';
+$string['displayNothingNoDateSet'] = 'Hide block (No End Date Set)';
+$string['displayNothingNoDateSet_help'] = 'Hides the block for users that have no end date set, If disabled, a message will be shown to those students';
 
 $string['forceDefaults'] = 'Force Default Values';
 $string['forceDefaults_help'] = 'Disables the ability for teachers to change the settings for each block instance';

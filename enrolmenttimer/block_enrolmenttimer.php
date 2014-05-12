@@ -155,7 +155,15 @@ class block_enrolmenttimer extends block_base {
 	    $this->content->text .= '>';
 
 	    if(!$timeLeft){
-	    	$this->content->text .= 'You have no enrollment end time set.';
+	    	$displayNothingNoDateSet = get_config('enrolmenttimer', 'displayNothingNoDateSet');
+	    	//var_dump($displayNothingNoDateSet);
+	    	if($displayNothingNoDateSet == 1){
+	    		$this->content->text = '';
+	    		return $this->content;
+	    	}else{
+	    		$this->content->text .= '<p class="noDateSet">'.get_string('noDateSet','block_enrolmenttimer').'</p></div>';
+	    		return $this->content;
+	    	}
 	    }else{
 	    	//$this->content->text .= 'You have ';
 	    	$counter = 1;

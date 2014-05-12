@@ -44,6 +44,13 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/displayNothingNoDateSet', 
+        get_string('displayNothingNoDateSet', 'block_enrolmenttimer'),
+        get_string('displayNothingNoDateSet_help', 'block_enrolmenttimer'),
+        1
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
         'enrolmenttimer/displayUnitLabels', 
         get_string('displayUnitLabels', 'block_enrolmenttimer'),
         get_string('displayUnitLabels_help', 'block_enrolmenttimer'),
