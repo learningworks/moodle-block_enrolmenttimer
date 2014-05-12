@@ -23,7 +23,7 @@
  */
 
 $plugin->version = 2014051215;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires = 2010112400; // YYYYMMDDHH (This is the release version for Moodle 2.0)
+$plugin->requires = 2012110900; // YYYYMMDDHH (This is the release version for Moodle 2.4)
 $plugin->cron = 86400; 			//cron runs daily
 $plugin->component = 'block_enrolmenttimer';
 $plugin->maturity = MATURITY_STABLE;
