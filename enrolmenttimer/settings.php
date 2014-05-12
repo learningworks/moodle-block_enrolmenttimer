@@ -36,12 +36,12 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('notificationsheadinggeneral',
         get_string('settings_general', 'block_enrolmenttimer'), ''));
 
-    $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/forceDefaults', 
-        get_string('forceDefaults', 'block_enrolmenttimer'),
-        get_string('forceDefaults_help', 'block_enrolmenttimer'),
-        0
-    ));
+    // $settings->add(new admin_setting_configcheckbox(
+    //     'enrolmenttimer/forceDefaults', 
+    //     get_string('forceDefaults', 'block_enrolmenttimer'),
+    //     get_string('forceDefaults_help', 'block_enrolmenttimer'),
+    //     0
+    // ));
 
     $settings->add(new admin_setting_configcheckbox(
         'enrolmenttimer/displayNothingNoDateSet', 
@@ -69,6 +69,22 @@ if ($ADMIN->fulltree) {
         get_string('displayTextCounter', 'block_enrolmenttimer'),
         get_string('displayTextCounter_help', 'block_enrolmenttimer'),
         1
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'enrolmenttimer/activecountdown', 
+        get_string('activecountdown', 'block_enrolmenttimer'),
+        get_string('activecountdown_help', 'block_enrolmenttimer'),
+        1
+    ));
+
+    $options = getPossibleUnits();
+    $settings->add(new admin_setting_configmultiselect(
+        'enrolmenttimer/viewoptions',
+        get_string('viewoptions', 'block_enrolmenttimer'), 
+        get_string('viewoptions_desc', 'block_enrolmenttimer'),
+        array_keys($options), 
+        array_values($options)
     ));
 
     /** 
@@ -123,27 +139,5 @@ if ($ADMIN->fulltree) {
         get_string('completionsmessage','block_enrolmenttimer'),
         get_string('completionsmessage_help', 'block_enrolmenttimer'),
         ''
-    ));
-
-    /** 
-    *   Default Settings
-    */
-    $settings->add(new admin_setting_heading('notificationsheadingdefaults',
-        get_string('settings_notifications_defaults', 'block_enrolmenttimer'), ''));
-
-    $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/activecountdown', 
-        get_string('activecountdown', 'block_enrolmenttimer'),
-        get_string('activecountdown_help', 'block_enrolmenttimer'),
-        1
-    ));
-
-    $options = getPossibleUnits();
-    $settings->add(new admin_setting_configmultiselect(
-        'enrolmenttimer/viewoptions',
-        get_string('viewoptions', 'block_enrolmenttimer'), 
-        get_string('viewoptions_desc', 'block_enrolmenttimer'),
-        array_keys($options), 
-        array_values($options)
     ));
 }

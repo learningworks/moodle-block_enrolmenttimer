@@ -18,29 +18,36 @@ class block_enrolmenttimer extends block_base {
 	}//closing //applicable_formats()
 
   	public function specialization() {
-		if (!empty($this->config->title)) {
-			$this->title = $this->config->title;
-		} else {
+		/*
+		*
+		* Use this code to check instance settings before
+		* using the admin settings
+		*
+		*/
+		
+		// if (!empty($this->config->title)) {
+		// 	$this->title = $this->config->title;
+		// } else {
 			$this->title = get_string('enrolmenttimer', 'block_enrolmenttimer');
-		}
+		//}
 
-		if(!empty($this->config->instance_completionpercentage)) {
-			$this->completionpercentage = $this->config->instance_completionpercentage;
-		} else {
+		// if(!empty($this->config->instance_completionpercentage)) {
+		// 	$this->completionpercentage = $this->config->instance_completionpercentage;
+		// } else {
 			$this->completionpercentage = get_config('enrolmenttimer', 'completionpercentage');
-		}
+		//}
 
-		if(!empty($this->config->instance_activecountdown)) {
-			$this->activecountdown = $this->config->instance_activecountdown;
-		} else {
+		// if(!empty($this->config->instance_activecountdown)) {
+		// 	$this->activecountdown = $this->config->instance_activecountdown;
+		// } else {
 			$this->activecountdown = get_config('enrolmenttimer', 'activecountdown');
-		}
+		//}
 
-		if(!empty($this->config->instance_viewoptions)) {
-			$this->viewoptions = $this->config->instance_viewoptions;
-		} else {
+		// if(!empty($this->config->instance_viewoptions)) {
+		// 	$this->viewoptions = $this->config->instance_viewoptions;
+		// } else {
 			$this->viewoptions = get_config('enrolmenttimer', 'viewoptions');
-		}
+		//}
 	}//closing specialization
 
 	public function cron() {
