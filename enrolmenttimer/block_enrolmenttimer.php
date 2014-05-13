@@ -122,8 +122,7 @@ class block_enrolmenttimer extends block_base {
 							if($enrolmentAlertTime < time() && $enrolmentStopAlertPeriod > time()){
 								// Send the email to the user
 							    $from = core_user::get_support_user();
-							    $user->email = 'aaron.leggett@learningworks.co.nz';
-								$subject = get_string('Enrolment Expiry');
+								$subject = get_config('enrolmenttimer', 'enrolmentemailsubject');
 								$body = get_config('enrolmenttimer', 'timeleftmessage');
 
 							    //personalise subject words
@@ -156,8 +155,7 @@ class block_enrolmenttimer extends block_base {
 						if($completion > (time()-86400)){
 							// Send the email to the user
 						    $from = core_user::get_support_user();
-						    $user->email = 'aaron.leggett@learningworks.co.nz';
-							$subject = get_string('newuser');
+							$subject = get_config('enrolmenttimer', 'completionemailsubject');
 							$body = get_config('enrolmenttimer', 'completionsmessage');
 
 

@@ -54,6 +54,8 @@ $string['timeleftmessagechk'] = 'Enable Time Warning Email';
 $string['timeleftmessagechk_help'] = 'Enables/Disables alert email';
 $string['timeleftmessage'] = 'Time Remaining Warning Message';
 $string['timeleftmessage_help'] = 'Email that will be sent to the student advising how much time they have left on the course eg 10 days left. Here you can use the following customisations; [[user_name]] [[course_name]] [[days_to_alert]]';
+$string['emailsubject'] = 'Email Subject';
+$string['emailsubject_help'] = 'Subject of the email that will be sent to the user';
 
 $string['completionsmessagechk'] = 'Enable Completion Email';
 $string['completionsmessagechk_help'] = 'Enables/Disables the completion email';

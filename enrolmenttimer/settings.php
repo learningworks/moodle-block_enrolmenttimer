@@ -105,6 +105,13 @@ if ($ADMIN->fulltree) {
         '10'
     ));
 
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/enrolmentemailsubject', 
+        get_string('emailsubject','block_enrolmenttimer'),
+        get_string('emailsubject_help', 'block_enrolmenttimer'),
+        'Enrolment Expiring'
+    ));
+
     $settings->add(new admin_setting_confightmleditor(
         'enrolmenttimer/timeleftmessage', 
         get_string('timeleftmessage','block_enrolmenttimer'),
@@ -131,6 +138,14 @@ if ($ADMIN->fulltree) {
         get_string('completionpercentage_help', 'block_enrolmenttimer'),
         '100'
     ));
+
+    $settings->add(new admin_setting_configtext(
+        'enrolmenttimer/completionemailsubject', 
+        get_string('emailsubject','block_enrolmenttimer'),
+        get_string('emailsubject_help', 'block_enrolmenttimer'),
+        'Course Completed'
+    ));
+
 
     $settings->add(new admin_setting_confightmleditor(
         'enrolmenttimer/completionsmessage', 
