@@ -88,6 +88,11 @@ class block_enrolmenttimer extends block_base {
 	    // Get the instances of the block
 	    $instances = $DB->get_records( 'block_instances', array('blockname'=>'enrolmenttimer') );
 	 
+	    //get the cron run time 
+	    $crontime = $DB->get_record('block', array('name'=>'enrolmenttimer'));
+	    //will never return null, otherwise we wouldnt be in the cron method
+	    $crontime = $crontime->cron;
+
 	    // Iterate over the instances
 	    foreach ($instances as $instance) {
 	        // Recreate block object
@@ -113,11 +118,11 @@ class block_enrolmenttimer extends block_base {
 						if(is_object($record) || $record->timeend != 0 ){
 							//calculate timestamp at which to alert the user
 							$enrolmentEnd = (int)$record->timeend;
-							$enrolmentAlertPeriod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend')*86400;
+							$enrolmentAlertPeriod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend')*$crontime;
 							$enrolmentAlertTime = $enrolmentEnd - $enrolmentAlertPeriod;
 
 							//calculate timestamp at which to stop alerting user
-							$enrolmentStopAlertPeriod = (int)$enrolmentAlertTime + 86400;
+							$enrolmentStopAlertPeriod = (int)$enrolmentAlertTime + $crontime;
 
 							if($enrolmentAlertTime < time() && $enrolmentStopAlertPeriod > time()){
 								// Send the email to the user
@@ -152,7 +157,7 @@ class block_enrolmenttimer extends block_base {
 							continue;
 						}
 						
-						if($completion > (time()-86400)){
+						if($completion > (time()-$crontime)){
 							// Send the email to the user
 						    $from = core_user::get_support_user();
 							$subject = get_config('enrolmenttimer', 'completionemailsubject');
