@@ -103,7 +103,7 @@ class block_enrolmenttimer extends block_base {
 	        $coursecontext = context_course::instance($course->id);
 	        $users = get_role_users(5, $coursecontext);
 
-	        //loop through - check completion and days left alert
+	        //loop through - check days left alert and completion
 	        foreach($users as $user){
 	        	//Send Notification Emails
 	        	if(get_config('enrolmenttimer', 'timeleftmessagechk') == 1){
@@ -123,7 +123,7 @@ class block_enrolmenttimer extends block_base {
 								// Send the email to the user
 							    $from = core_user::get_support_user();
 							    $user->email = 'aaron.leggett@learningworks.co.nz';
-								$subject = get_string('newuser');
+								$subject = get_string('Enrolment Expiry');
 								$body = get_config('enrolmenttimer', 'timeleftmessage');
 
 							    //personalise subject words
@@ -131,7 +131,7 @@ class block_enrolmenttimer extends block_base {
 								$body = str_replace("[[course_name]]", $course->fullname, $body);
 								$body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
 
-							    $textOnlyBody = preg_match("<[^>]*>", "", $body);
+							    $textOnlyBody = strip_tags($body);
 								email_to_user($user, $from, $subject, $textOnlyBody, $body);
 							}
 						}
@@ -141,21 +141,31 @@ class block_enrolmenttimer extends block_base {
 				//Send Completion Emails
 				if(get_config('enrolmenttimer', 'completionsmessagechk') == 1){
 					$completion = $DB->get_record('course_completions', array('userid'=>$user->id, 'course'=>$course->id));
-					if($completion != false && $completion->timecompleted != NULL){
-						$completion = $completion->timecompleted;
+					if($completion != false && ($completion->timecompleted != NULL || $completion->reaggregate != NULL)){
+						if($completion->timecompleted != NULL){
+							//set by user completing course
+							$completion = $completion->timecompleted;
+						}elseif($completion->reaggregate != NULL){
+							// set by admin override
+							$completion = $completion->reaggregate;
+						}else{
+							//moves to the next loop in the foreach
+							continue;
+						}
+						
 						if($completion > (time()-86400)){
 							// Send the email to the user
 						    $from = core_user::get_support_user();
 						    $user->email = 'aaron.leggett@learningworks.co.nz';
 							$subject = get_string('newuser');
-							$body = get_config('enrolmenttimer', 'completionmessage');
+							$body = get_config('enrolmenttimer', 'completionsmessage');
 
 
 							//personalise subject words
 							$body = str_replace("[[user_name]]", $user->firstname, $body);
 							$body = str_replace("[[course_name]]", $course->fullname, $body);
 
-							$textOnlyBody = preg_match("<[^>]*>", "", $body);
+							$textOnlyBody = strip_tags($body);
 							email_to_user($user, $from, $subject, $textOnlyBody, $body);
 						}
 					}
