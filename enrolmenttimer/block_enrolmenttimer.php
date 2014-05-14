@@ -188,6 +188,8 @@ class block_enrolmenttimer extends block_base {
 	    	return $this->content;
 	    }
 
+	    $this->content->text = '';
+
 	    $this->page->requires->js('/blocks/enrolmenttimer/scripts/jquery-1.10.2.min.js');
 	    $this->page->requires->js('/blocks/enrolmenttimer/scripts/scripts.js');
 
