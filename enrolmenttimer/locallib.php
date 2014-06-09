@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $filepath - filepath of the XML file to read in
  * @return array from the XML file
  */
-function getEnrolmentPeriodRemaining($unitsToShow){
+function enrolmenttimer_get_enrolment_period_remaining($unitsToShow){
 	global $COURSE, $USER, $DB, $CFG;
 
  	$context = context_course::instance($COURSE->id);
@@ -38,7 +38,7 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
-		$records = getEnrolmentRecords($USER->id, $COURSE->id);
+		$records = enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
 		}else{
@@ -69,10 +69,10 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 
     	if(empty($unitsToShow)){
     		//they have not selected any, so show all
-    		$unitsToShow = getPossibleUnits();
+    		$unitsToShow = enrolmenttimer_get_possible_units();
     	}else{
     		//have the selected units, but we only have id's for their values
-    		$unitsToShow = getSelectedUnitsTextValues($unitsToShow);
+    		$unitsToShow = enrolmenttimer_get_selected_units_text_values($unitsToShow);
     	}
 
 	    foreach($tokens as $unit => $text){
@@ -89,7 +89,7 @@ function getEnrolmentPeriodRemaining($unitsToShow){
 	}
 }
 
-function getEnrolmentRecords($userid, $courseid){
+function enrolmenttimer_get_enrolment_records($userid, $courseid){
 	global $DB;
 
 	$sql = '
@@ -101,13 +101,13 @@ function getEnrolmentRecords($userid, $courseid){
 	return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
-function getPossibleUnits(){
+function enrolmenttimer_get_possible_units(){
 	return array('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds');
 }
 
-function getSelectedUnitsTextValues($idstring){
+function enrolmenttimer_get_selected_units_text_values($idstring){
 	$idarray = explode(',', $idstring);
-	$possibleUnits = getPossibleUnits();
+	$possibleUnits = enrolmenttimer_get_possible_units();
 	$output = array();
 	foreach($idarray as $key => $value){
 		array_push($output, $possibleUnits[$value]);
