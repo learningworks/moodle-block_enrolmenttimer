@@ -76,7 +76,7 @@ if ($ADMIN->fulltree) {
         1
     ));
 
-    $options = getPossibleUnits();
+    $options = enrolmenttimer_get_possible_units();
     $settings->add(new admin_setting_configmultiselect(
         'enrolmenttimer/viewoptions',
         get_string('viewoptions', 'block_enrolmenttimer'), 
