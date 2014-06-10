@@ -112,7 +112,7 @@ class block_enrolmenttimer extends block_base {
 	        foreach($users as $user){
 	        	//Send Notification Emails
 	        	if(get_config('enrolmenttimer', 'timeleftmessagechk') == 1){
-		        	$records = enrolmenttimer_get_enrolment_records($user->id, $course->id);
+		        	$records = block_enrolmenttimer_get_enrolment_records($user->id, $course->id);
 		        	if(isset($records[$user->id])){
 						$record = $records[$user->id];
 						if(is_object($record) || $record->timeend != 0 ){
@@ -194,7 +194,7 @@ class block_enrolmenttimer extends block_base {
 	    $this->page->requires->js('/blocks/enrolmenttimer/scripts/jquery-1.10.2.min.js');
 	    $this->page->requires->js('/blocks/enrolmenttimer/scripts/scripts.js');
 
-	    $timeLeft = enrolmenttimer_get_enrolment_period_remaining($this->viewoptions);
+	    $timeLeft = block_enrolmenttimer_get_remaining_enrolment_period($this->viewoptions);
 	    $this->content->text .= '<div';
 		    if($this->activecountdown == 1){
 		    	$this->content->text .= ' class="active"';

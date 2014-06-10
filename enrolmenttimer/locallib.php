@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $filepath - filepath of the XML file to read in
  * @return array from the XML file
  */
-function enrolmenttimer_get_enrolment_period_remaining($unitsToShow){
+function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 	global $COURSE, $USER, $DB, $CFG;
 
  	$context = context_course::instance($COURSE->id);
@@ -38,7 +38,7 @@ function enrolmenttimer_get_enrolment_period_remaining($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
-		$records = enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
+		$records = block_enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
 		}else{
@@ -69,10 +69,10 @@ function enrolmenttimer_get_enrolment_period_remaining($unitsToShow){
 
     	if(empty($unitsToShow)){
     		//they have not selected any, so show all
-    		$unitsToShow = enrolmenttimer_get_possible_units();
+    		$unitsToShow = block_enrolmenttimer_get_possible_units();
     	}else{
     		//have the selected units, but we only have id's for their values
-    		$unitsToShow = enrolmenttimer_get_selected_units_text_values($unitsToShow);
+    		$unitsToShow = block_enrolmenttimer_get_units_text_values($unitsToShow);
     	}
 
 	    foreach($tokens as $unit => $text){
@@ -89,7 +89,7 @@ function enrolmenttimer_get_enrolment_period_remaining($unitsToShow){
 	}
 }
 
-function enrolmenttimer_get_enrolment_records($userid, $courseid){
+function block_enrolmenttimer_get_enrolment_records($userid, $courseid){
 	global $DB;
 
 	$sql = '
@@ -101,13 +101,13 @@ function enrolmenttimer_get_enrolment_records($userid, $courseid){
 	return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
-function enrolmenttimer_get_possible_units(){
+function block_enrolmenttimer_get_possible_units(){
 	return array('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds');
 }
 
-function enrolmenttimer_get_selected_units_text_values($idstring){
+function block_enrolmenttimer_get_units_text_values($idstring){
 	$idarray = explode(',', $idstring);
-	$possibleUnits = enrolmenttimer_get_possible_units();
+	$possibleUnits = block_enrolmenttimer_get_possible_units();
 	$output = array();
 	foreach($idarray as $key => $value){
 		array_push($output, $possibleUnits[$value]);
