@@ -15,9 +15,3 @@ VERSION UPDATES
 Version 2014061101,
 - Function Names have been updated to align with the Moodle frankenstyle naming convention
 
-Version 2014061205,
-- Fixed up the functionality so the actual text value of each incremental
-value is only set in one place. Code is more streamlined in this file
-also.
-- As per the request of 'German Valero', I have added the remaining
-strings to the langfile for easy AMOS language conversion
