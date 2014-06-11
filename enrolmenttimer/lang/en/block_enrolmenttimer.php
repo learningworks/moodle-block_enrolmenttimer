@@ -56,6 +56,8 @@ $string['timeleftmessage'] = 'Time Remaining Warning Message';
 $string['timeleftmessage_help'] = 'Email that will be sent to the student advising how much time they have left on the course eg 10 days left. Here you can use the following customisations; [[user_name]] [[course_name]] [[days_to_alert]]';
 $string['emailsubject'] = 'Email Subject';
 $string['emailsubject_help'] = 'Subject of the email that will be sent to the user';
+$string['emailsubject_expiring_default'] = 'Enrolment Expiring';
+$string['emailsubject_completion_default'] = 'Course Completed';
 
 $string['completionsmessagechk'] = 'Enable Completion Email';
 $string['completionsmessagechk_help'] = 'Enables/Disables the completion email';
@@ -64,3 +66,10 @@ $string['completionsmessage_help'] = 'Email that will be sent congratulating the
 $string['completionpercentage'] = 'Notification percentage';
 $string['completionpercentage_help'] = 'This is the percentage the student must aquire in the \'Course Total\' for the completion email to be sent to them';
 
+$string['key_years'] = 'years';
+$string['key_months'] = 'months';
+$string['key_weeks'] = 'weeks';
+$string['key_days'] = 'days';
+$string['key_hours'] = 'hours';
+$string['key_minutes'] = 'minutes';
+$string['key_seconds'] = 'seconds';

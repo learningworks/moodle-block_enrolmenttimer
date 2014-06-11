@@ -46,25 +46,11 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 		}
 	}
 
-	// $record = array();
- 	// $record['timeend'] = 1434238823;
- 	// var_dump($record);
-
 	if(!is_object($record) || $record->timeend == 0 ){
 		return false;
 	}else{
 		$timeDifference = (int)$record->timeend - time();
-		
-		$tokens = array (
-	        31536000 => 'years',
-	        2592000 => 'months',
-	        604800 => 'weeks',
-	        86400 => 'days',
-	        3600 => 'hours',
-	        60 => 'minutes',
-	        1 => 'seconds'
-	    );
-
+		$tokens = block_enrolmenttimer_get_units();
 	    $result = array();
 
     	if(empty($unitsToShow)){
@@ -72,17 +58,26 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
     		$unitsToShow = block_enrolmenttimer_get_possible_units();
     	}else{
     		//have the selected units, but we only have id's for their values
-    		$unitsToShow = block_enrolmenttimer_get_units_text_values($unitsToShow);
+    		$unitsToShow = block_enrolmenttimer_sort_units_to_show($unitsToShow);
+    		var_dump($unitsToShow);
     	}
 
-	    foreach($tokens as $unit => $text){
-	    	if(in_array($text, $unitsToShow)){
-		    	if($timeDifference > $unit){
-		    		$count = floor($timeDifference/$unit);
-		    		$result[$text] = $count;
-		    		$timeDifference = $timeDifference-($count*$unit); 
-		    	}
-		    }
+	    // foreach($tokens as $text => $unit){
+	    // 	if(in_array($text, $unitsToShow)){
+		   //  	if($timeDifference > $unit){
+		   //  		$count = floor($timeDifference/$unit);
+		   //  		$result[$text] = $count;
+		   //  		$timeDifference = $timeDifference-($count*$unit); 
+		   //  	}
+		   //  }
+	    // }
+
+	    foreach($unitsToShow as $text => $unit){
+	    	if($timeDifference > $unit){
+	    		$count = floor($timeDifference/$unit);
+	    		$result[$text] = $count;
+	    		$timeDifference = $timeDifference-($count*$unit); 
+	    	}
 	    }
 
 		return $result;
@@ -101,16 +96,30 @@ function block_enrolmenttimer_get_enrolment_records($userid, $courseid){
 	return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
-function block_enrolmenttimer_get_possible_units(){
-	return array('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds');
+function block_enrolmenttimer_get_units(){
+	return array (
+        get_string('key_years', 'block_enrolmenttimer') 	=> 31536000,
+        get_string('key_months', 'block_enrolmenttimer') 	=> 2592000,
+        get_string('key_weeks', 'block_enrolmenttimer') 	=> 604800,
+        get_string('key_days', 'block_enrolmenttimer') 		=> 86400,
+        get_string('key_hours', 'block_enrolmenttimer') 	=> 3600,
+        get_string('key_minutes', 'block_enrolmenttimer') 	=> 60,
+        get_string('key_seconds', 'block_enrolmenttimer') 	=> 1 
+    );
 }
 
-function block_enrolmenttimer_get_units_text_values($idstring){
+function block_enrolmenttimer_sort_units_to_show($idstring){
 	$idarray = explode(',', $idstring);
-	$possibleUnits = block_enrolmenttimer_get_possible_units();
+	//array of array positions eg 1,2,3 tha where selected on the settings menu
+
+	$units = block_enrolmenttimer_get_units();
+	$unitKeys = array_keys($units);
 	$output = array();
+
 	foreach($idarray as $key => $value){
-		array_push($output, $possibleUnits[$value]);
+		// will equal $output['seconds'] = 1
+		$unitKey = $unitKeys[$value];
+		$output[$unitKey] = $units[$unitKey];
 	}
 
 	return $output;

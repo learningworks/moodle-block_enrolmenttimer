@@ -76,7 +76,7 @@ if ($ADMIN->fulltree) {
         1
     ));
 
-    $options = block_enrolmenttimer_get_possible_units();
+    $options = array_keys(block_enrolmenttimer_get_units());
     $settings->add(new admin_setting_configmultiselect(
         'enrolmenttimer/viewoptions',
         get_string('viewoptions', 'block_enrolmenttimer'), 
@@ -109,7 +109,7 @@ if ($ADMIN->fulltree) {
         'enrolmenttimer/enrolmentemailsubject', 
         get_string('emailsubject','block_enrolmenttimer'),
         get_string('emailsubject_help', 'block_enrolmenttimer'),
-        'Enrolment Expiring'
+        get_string('emailsubject_expiring_default', 'block_enrolmenttimer')
     ));
 
     $settings->add(new admin_setting_confightmleditor(
@@ -143,7 +143,7 @@ if ($ADMIN->fulltree) {
         'enrolmenttimer/completionemailsubject', 
         get_string('emailsubject','block_enrolmenttimer'),
         get_string('emailsubject_help', 'block_enrolmenttimer'),
-        'Course Completed'
+        get_string('emailsubject_completion_default', 'block_enrolmenttimer')
     ));
 
 
