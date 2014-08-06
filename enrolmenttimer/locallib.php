@@ -59,18 +59,7 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
     	}else{
     		//have the selected units, but we only have id's for their values
     		$unitsToShow = block_enrolmenttimer_sort_units_to_show($unitsToShow);
-    		var_dump($unitsToShow);
     	}
-
-	    // foreach($tokens as $text => $unit){
-	    // 	if(in_array($text, $unitsToShow)){
-		   //  	if($timeDifference > $unit){
-		   //  		$count = floor($timeDifference/$unit);
-		   //  		$result[$text] = $count;
-		   //  		$timeDifference = $timeDifference-($count*$unit); 
-		   //  	}
-		   //  }
-	    // }
 
 	    foreach($unitsToShow as $text => $unit){
 	    	if($timeDifference > $unit){
