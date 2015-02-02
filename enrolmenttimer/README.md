@@ -12,8 +12,15 @@ The plugin has been developed with limited styling to enable the best possible b
 VERSION UPDATES
 ===============
 
-Version 2014080700, -Removed a dump of the time units to display (found by Ralf Brauckhoff)
+Version 2015020200,
+- Updated background image URL's and checked 2.8 functionlaity
 
-Version 2014061205, - Fixed up the functionality so the actual text value of each incremental value is only set in one place. Code is more streamlined in this file also. - As per the request of 'German Valero', I have added the remaining strings to the langfile for easy AMOS language conversion
+Version 2014061205,
+- Fixed up the functionality so the actual text value of each incremental
+value is only set in one place. Code is more streamlined in this file
+also.
+- As per the request of 'German Valero', I have added the remaining
+strings to the langfile for easy AMOS language conversion
 
-Version 2014061101, - Function Names have been updated to align with the Moodle frankenstyle naming convention
+Version 2014061101,
+- Function Names have been updated to align with the Moodle frankenstyle naming convention
