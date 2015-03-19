@@ -74,14 +74,14 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 }
 
 function block_enrolmenttimer_get_enrolment_records($userid, $courseid){
-	global $DB;
+	global $DB, $CFG;
 
 	$sql = '
-	    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
-	      	FROM mdl_user_enrolments ue
-	      	JOIN mdl_enrol e on ue.enrolid = e.id
-	     	WHERE ue.userid = ? AND e.courseid = ?
-	    ';
+    	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
+      	FROM '.$CFG->prefix.'user_enrolments ue
+      	JOIN '.$CFG->prefix.'enrol e on ue.enrolid = e.id
+     	WHERE ue.userid = ? AND e.courseid = ?
+    ';
 	return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
