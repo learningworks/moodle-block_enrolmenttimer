@@ -11,6 +11,8 @@ The plugin has been developed with limited styling to enable the best possible b
 
 VERSION UPDATES
 ===============
+Version 2015031914,
+- Updated SQL query to use Moodle's table prefix setting instead of expecting it to be 'mdl_'
 
 Version 2015020200,
 - Updated background image URL's and checked 2.8 functionlaity
