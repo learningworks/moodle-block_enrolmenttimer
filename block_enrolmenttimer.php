@@ -18,7 +18,7 @@
  * Main file to display the block
  *
  * @package    block_enrolmenttimer
- * @copyright  2014 Aaron Leggett - LearningWorks Ltd
+ * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -111,6 +111,7 @@ class block_enrolmenttimer extends block_base {
 	        //loop through - check days left alert and completion
 	        foreach($users as $user){
 	        	//Send Notification Emails
+				echo get_config('enrolmenttimer', 'timeleftmessagechk');
 	        	if(get_config('enrolmenttimer', 'timeleftmessagechk') == 1){
 		        	$records = block_enrolmenttimer_get_enrolment_records($user->id, $course->id);
 		        	if(isset($records[$user->id])){
@@ -118,14 +119,21 @@ class block_enrolmenttimer extends block_base {
 						if(is_object($record) || $record->timeend != 0 ){
 							//calculate timestamp at which to alert the user
 							$enrolmentEnd = (int)$record->timeend;
-							$enrolmentAlertPeriod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend')*$crontime;
+							$enrolmentAlertPeriod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend')*$crontime; // daystoalert ment to be hours?
 							$enrolmentAlertTime = $enrolmentEnd - $enrolmentAlertPeriod;
 
 							//calculate timestamp at which to stop alerting user
 							$enrolmentStopAlertPeriod = (int)$enrolmentAlertTime + $crontime;
 
+							echo "User id".$user->id;
+							echo "enrolmentAlertTime ".$enrolmentAlertTime;
+							echo "enrolmentStopAlertTime ".$enrolmentStopAlertPeriod;
+
+							echo "Current Time ".time();
+
 							if($enrolmentAlertTime < time() && $enrolmentStopAlertPeriod > time()){
 								// Send the email to the user
+								echo "We Got In".time()."<br/>";
 							    $from = core_user::get_support_user();
 								$subject = get_config('enrolmenttimer', 'enrolmentemailsubject');
 								$body = get_config('enrolmenttimer', 'timeleftmessage');

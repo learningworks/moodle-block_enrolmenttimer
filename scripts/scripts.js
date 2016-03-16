@@ -20,6 +20,7 @@
  * @copyright  2014 Aaron Leggett - LearningWorks Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require(['jquery'], function($) { // moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery
 
 var options = [];
 var arrayKeys = [];
@@ -97,23 +98,26 @@ function makeTimestamp(){
 	};
 }
 
-function updateLiveCounter(){
+function updateLiveCounter() {
 	timestamp--;
 	var time = timestamp;
 	var tokens = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
 	var units = ['31536000', '2592000', '604800', '86400', '3600', '60', '1'];
 
+	//alert(tokens);
 	for (var i = 0; i < tokens.length; i++) {
-		if($.inArray(tokens[i], arrayKeys) != -1){
-			if(time >= units[i]){
+
+		if (arrayKeys.indexOf(tokens[i]) != -1) {
+			if (time >= units[i]) {
 				var count = Math.floor(time / units[i]);
 				updateMainCounter(tokens[i], count);
-				time = time - (count*units[i]);
-			}else{
+				time = time - (count * units[i]);
+			} else {
 				updateMainCounter(tokens[i], 0);
 			}
+			//}
 		}
-	};
+	}
 }
 
 function updateMainCounter(counter, time){
@@ -130,3 +134,5 @@ function updateMainCounter(counter, time){
 	$('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="'+counter+'"]').html(html);
 	$('.block_enrolmenttimer .active .text-desc .'+counter).html(time);
 }
+
+});

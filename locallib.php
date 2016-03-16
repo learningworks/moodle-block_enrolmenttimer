@@ -18,7 +18,7 @@
  * Lib File
  *
  * @package    block_enrolmenttimer
- * @copyright  2014 Aaron Leggett - LearningWorks Ltd
+ * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +38,9 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
+		var_dump($USER->id." ".$COURSE->id);
+		var_dump(date('Y-m-d h:i:s'));
+
 		$records = block_enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
@@ -50,12 +53,12 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 		return false;
 	}else{
 		$timeDifference = (int)$record->timeend - time();
-		$tokens = block_enrolmenttimer_get_units();
+		$tokens = block_enrolmenttimer_get_units();//unused ??
 	    $result = array();
 
     	if(empty($unitsToShow)){
     		//they have not selected any, so show all
-    		$unitsToShow = block_enrolmenttimer_get_possible_units();
+    		$unitsToShow = block_enrolmenttimer_get_units();
     	}else{
     		//have the selected units, but we only have id's for their values
     		$unitsToShow = block_enrolmenttimer_sort_units_to_show($unitsToShow);

@@ -1,0 +1,18 @@
+{
+  "name": "learningworks/moodle-block_enrolmenttimer",
+  "type": "moodle-block",
+  "homepage": "https://moodle.org/plugins/view.php?plugin=block_enrolmenttimer",
+  "description": "This block provides the functionality to display the time a user has left in their enrolment period.",
+  "authors": [
+    {
+      "name": "LearningWorks",
+      "email": "moodleadmin@learningworks.co.nz"
+    }
+  ],
+  "require": {
+    "composer/installers": "*"
+  },
+  "extra": {
+    "installer-name": "configurable_reports"
+  }
+}
