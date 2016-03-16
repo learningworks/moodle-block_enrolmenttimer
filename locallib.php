@@ -53,7 +53,7 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 		return false;
 	}else{
 		$timeDifference = (int)$record->timeend - time();
-		$tokens = block_enrolmenttimer_get_units();//unused ??
+		$tokens = block_enrolmenttimer_get_units();
 	    $result = array();
 
     	if(empty($unitsToShow)){
