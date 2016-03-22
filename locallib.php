@@ -38,8 +38,8 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
-		var_dump($USER->id." ".$COURSE->id);
-		var_dump(date('Y-m-d h:i:s'));
+		//var_dump($USER->id." ".$COURSE->id);
+		//var_dump(date('Y-m-d h:i:s'));
 
 		$records = block_enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
