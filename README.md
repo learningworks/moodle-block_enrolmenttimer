@@ -3,6 +3,7 @@ moodle-enrolmenttimer
 
 Moodle Block - enrolmenttimer
 Developed by - Aaron Leggett - LearningWorks Ltd
+Maintained by - LearningWorks Ltd
 
 This block provides the functionality to display the time a user has left in their enrolment period.
 There are many settings to choose from to customise the way this is displayed to the user.
@@ -14,6 +15,9 @@ The plugin has been developed with limited styling to enable the best possible b
 
 VERSION UPDATES
 ===============
+Version 2016060800,
+- Updated locallib to remove the dependency on CFG->prefix and update the version file. Checked against Moodle 3.0.4 & 3.1
+
 Version 2015031914,
 - Updated SQL query to use Moodle's table prefix setting instead of expecting it to be 'mdl_'
 
@@ -24,6 +28,7 @@ Version 2014061205,
 - Fixed up the functionality so the actual text value of each incremental
 value is only set in one place. Code is more streamlined in this file
 also.
+
 - As per the request of 'German Valero', I have added the remaining
 strings to the langfile for easy AMOS language conversion
 

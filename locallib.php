@@ -38,7 +38,6 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 	if(has_capability('moodle/site:config', $context)){
 		$record = 0;
 	}else{
-
 		$records = block_enrolmenttimer_get_enrolment_records($USER->id, $COURSE->id);
 		if(isset($records[$USER->id])){
 			$record = $records[$USER->id];
@@ -75,12 +74,12 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitsToShow){
 }
 
 function block_enrolmenttimer_get_enrolment_records($userid, $courseid){
-	global $DB, $CFG;
+	global $DB;
 
 	$sql = '
     	SELECT ue.userid, ue.id, ue.timestart, ue.timeend
-      	FROM '.$CFG->prefix.'user_enrolments ue
-      	JOIN '.$CFG->prefix.'enrol e on ue.enrolid = e.id
+      	FROM {user_enrolments} ue
+      	JOIN {enrol} e on ue.enrolid = e.id
      	WHERE ue.userid = ? AND e.courseid = ?
     ';
 	return $DB->get_records_sql($sql, array($userid, $courseid));

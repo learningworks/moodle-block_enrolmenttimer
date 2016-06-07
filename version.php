@@ -22,9 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version = 2016031700;  // YYYYMMDDHH (year, month, day, 24-hr time)
+$plugin->version = 2016060800;  // YYYYMMDDHH (year, month, day, 24-hr time)
 $plugin->requires = 2015051100; // YYYYMMDDHH (This is the release version for Moodle)
 $plugin->cron = 3600; 			// cron runs every hour
 $plugin->component = 'block_enrolmenttimer';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.0.0';
+$plugin->release = '3.1.0';
