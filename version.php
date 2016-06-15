@@ -13,18 +13,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * Version File
  *
- * @package    block_enrolmenttimer
- * @copyright  LearningWorks Ltd 2016
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   block_enrolmenttimer
+ * @copyright LearningWorks Ltd 2016
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version = 2016060800;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires = 2015051100; // YYYYMMDDHH (This is the release version for Moodle)
-$plugin->cron = 3600; 			// cron runs every hour
+$plugin->version = 2016060800;
+// YYYYMMDDHH (year, month, day, 24-hr time)
+$plugin->requires = 2015051100;
+// YYYYMMDDHH (This is the release version for Moodle)
+$plugin->cron = 3600;
+// cron runs every hour
 $plugin->component = 'block_enrolmenttimer';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.1.0';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '3.1.0';
