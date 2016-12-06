@@ -20,7 +20,7 @@
  * @copyright  2014 Aaron Leggett - LearningWorks Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
+define(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
     var options = [];
     var arrayKeys = [];
     var timestamp = 0;
@@ -78,6 +78,21 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
             }
         }
 
+        function updateMainCounter(counter, time){
+            var html = '';
+            if(forceTwoDigits === true && time.toString().length == 1){
+                html += '<span class="timerNumChar" data-id="0">0</span>';
+                html += '<span class="timerNumChar" data-id="1">' + time.toString() + '</span>';
+            } else {
+                for (var i = 0; i < time.toString().length; i++) {
+                    html += '<span class="timerNumChar" data-id="' + i + '">' + time.toString().charAt(i) + '</span>';
+                }
+            }
+
+            $('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="' + counter + '"]').html(html);
+            $('.block_enrolmenttimer .active .text-desc .' + counter).html(time);
+        }
+
         function updateLiveCounter() {
             timestamp--;
             var time = timestamp;
@@ -96,21 +111,6 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
                     }
                 }
             }
-        }
-
-        function updateMainCounter(counter, time){
-            var html = '';
-            if(forceTwoDigits === true && time.toString().length == 1){
-                html += '<span class="timerNumChar" data-id="0">0</span>';
-                html += '<span class="timerNumChar" data-id="1">' + time.toString() + '</span>';
-            } else {
-                for (var i = 0; i < time.toString().length; i++) {
-                    html += '<span class="timerNumChar" data-id="' + i + '">' + time.toString().charAt(i) + '</span>';
-                }
-            }
-
-            $('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="' + counter + '"]').html(html);
-            $('.block_enrolmenttimer .active .text-desc .' + counter).html(time);
         }
 
         if($('.block_enrolmenttimer .active').length > 0){
