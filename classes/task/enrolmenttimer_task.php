@@ -41,10 +41,8 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
         // Get the instances of the block.
         $instances = $DB->get_records( 'block_instances', array('blockname' => 'enrolmenttimer') );
 
-        // Get the cron run time.
-        $crontime = $DB->get_record('block', array('name' => 'enrolmenttimer'));
         // Will never return null, otherwise we wouldnt be in the cron method.
-        $crontime = $crontime->cron;
+        $crontime = 3600;
 
         // Iterate over the instances.
         foreach ($instances as $instance) {
@@ -93,7 +91,8 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                                 // Personalise subject words.
                                 $body = str_replace("[[user_name]]", $user->firstname, $body);
                                 $body = str_replace("[[course_name]]", $course->fullname, $body);
-                                $body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer', 'daystoalertenrolmentend'), $body);
+                                $body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer',
+                                    'daystoalertenrolmentend'), $body);
 
                                 $textonlybody = strip_tags($body);
                                 email_to_user($user, $from, $subject, $textonlybody, $body);

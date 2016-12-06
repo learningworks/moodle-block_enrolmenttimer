@@ -32,13 +32,6 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('notificationsheadinggeneral',
         get_string('settings_general', 'block_enrolmenttimer'), ''));
 
-    // $settings->add(new admin_setting_configcheckbox(
-    //     'enrolmenttimer/forceDefaults', 
-    //     get_string('forceDefaults', 'block_enrolmenttimer'),
-    //     get_string('forceDefaults_help', 'block_enrolmenttimer'),
-    //     0
-    // ));
-
     $settings->add(new admin_setting_configcheckbox(
         'enrolmenttimer/displayNothingNoDateSet',
         get_string('displayNothingNoDateSet', 'block_enrolmenttimer'),

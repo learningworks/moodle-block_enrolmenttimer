@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return array from the XML file
  */
 function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
-    global $COURSE, $USER, $DB, $CFG;
+    global $COURSE, $USER;
 
     $context = context_course::instance($COURSE->id);
 
@@ -50,7 +50,6 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
         return false;
     } else {
         $timedifference = (int)$record->timeend - time();
-        $tokens = block_enrolmenttimer_get_units();
         $result = array();
 
         if (empty($unitstoshow)) {

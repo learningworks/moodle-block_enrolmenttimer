@@ -54,7 +54,7 @@ class block_enrolmenttimer extends block_base {
     }//closing specialization
 
     public function get_content() {
-        global $COURSE, $USER, $DB, $CFG;
+        global $CFG;
         require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
 
         if ($this->content !== null) {
@@ -63,7 +63,6 @@ class block_enrolmenttimer extends block_base {
 
         $this->content = new stdClass;
         $this->content->text = '';
-        $this->page->requires->js('/blocks/enrolmenttimer/scripts/jquery-1.10.2.min.js');
         $this->page->requires->js('/blocks/enrolmenttimer/scripts/scripts.js');
 
         $timeleft = block_enrolmenttimer_get_remaining_enrolment_period($this->viewoptions);
