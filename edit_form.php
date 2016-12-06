@@ -21,9 +21,8 @@
  * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+defined('MOODLE_INTERNAL') || die();
 class block_enrolmenttimer_edit_form extends block_edit_form {
- 
     protected function specific_definition($mform) {
         global $CFG;
 
@@ -43,8 +42,8 @@ class block_enrolmenttimer_edit_form extends block_edit_form {
         //     $mform->addElement('header', 'configheader', get_string('enrolmenttimer', 'block_enrolmenttimer'));
 
         //     $mform->addElement('text', 'instance_title', get_string('instance_title', 'block_enrolmenttimer'));
-    	   //  $mform->setDefault('instance_title', get_string('enrolmenttimer', 'block_enrolmenttimer'));
-    	   //  $mform->setType('instance_title', PARAM_MULTILANG);
+           //  $mform->setDefault('instance_title', get_string('enrolmenttimer', 'block_enrolmenttimer'));
+           //  $mform->setType('instance_title', PARAM_MULTILANG);
 
         //     $mform->addElement('text', 'instance_completionpercentage', get_string('completionpercentage', 'block_enrolmenttimer'));
         //     $mform->setDefault('instance_completionpercentage', get_config('enrolmenttimer', 'completionpercentage'));
