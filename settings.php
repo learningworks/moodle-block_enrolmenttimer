@@ -28,49 +28,40 @@ if ($ADMIN->fulltree) {
 
     require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
 
-    /** 
-    *   General Settings
-    */
+    // General Settings.
     $settings->add(new admin_setting_heading('notificationsheadinggeneral',
         get_string('settings_general', 'block_enrolmenttimer'), ''));
 
-    // $settings->add(new admin_setting_configcheckbox(
-    //     'enrolmenttimer/forceDefaults', 
-    //     get_string('forceDefaults', 'block_enrolmenttimer'),
-    //     get_string('forceDefaults_help', 'block_enrolmenttimer'),
-    //     0
-    // ));
-
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/displayNothingNoDateSet', 
+        'enrolmenttimer/displayNothingNoDateSet',
         get_string('displayNothingNoDateSet', 'block_enrolmenttimer'),
         get_string('displayNothingNoDateSet_help', 'block_enrolmenttimer'),
         1
     ));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/displayUnitLabels', 
+        'enrolmenttimer/displayUnitLabels',
         get_string('displayUnitLabels', 'block_enrolmenttimer'),
         get_string('displayUnitLabels_help', 'block_enrolmenttimer'),
         0
     ));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/forceTwoDigits', 
+        'enrolmenttimer/forceTwoDigits',
         get_string('forceTwoDigits', 'block_enrolmenttimer'),
         get_string('forceTwoDigits_help', 'block_enrolmenttimer'),
-        0
+        1
     ));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/displayTextCounter', 
+        'enrolmenttimer/displayTextCounter',
         get_string('displayTextCounter', 'block_enrolmenttimer'),
         get_string('displayTextCounter_help', 'block_enrolmenttimer'),
         1
     ));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/activecountdown', 
+        'enrolmenttimer/activecountdown',
         get_string('activecountdown', 'block_enrolmenttimer'),
         get_string('activecountdown_help', 'block_enrolmenttimer'),
         1
@@ -79,77 +70,73 @@ if ($ADMIN->fulltree) {
     $options = array_keys(block_enrolmenttimer_get_units());
     $settings->add(new admin_setting_configmultiselect(
         'enrolmenttimer/viewoptions',
-        get_string('viewoptions', 'block_enrolmenttimer'), 
+        get_string('viewoptions', 'block_enrolmenttimer'),
         get_string('viewoptions_desc', 'block_enrolmenttimer'),
-        array_keys($options), 
+        array_keys($options),
         array_values($options)
     ));
 
-    /** 
-    *   Enrolment Ending Alert Settings
-    */
+    // Enrolment Ending Alert Settings.
     $settings->add(new admin_setting_heading('notificationsheadingalert',
         get_string('settings_notifications_alert', 'block_enrolmenttimer'), ''));
 
     $settings->add(new admin_setting_configcheckbox(
-        'enrolmenttimer/timeleftmessagechk', 
+        'enrolmenttimer/timeleftmessagechk',
         get_string('timeleftmessagechk', 'block_enrolmenttimer'),
         get_string('timeleftmessagechk_help', 'block_enrolmenttimer'),
         0
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/daystoalertenrolmentend', 
-        get_string('daystoalertenrolmentend','block_enrolmenttimer'),
+        'enrolmenttimer/daystoalertenrolmentend',
+        get_string('daystoalertenrolmentend', 'block_enrolmenttimer'),
         get_string('daystoalertenrolmentend_help', 'block_enrolmenttimer'),
         '10'
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/enrolmentemailsubject', 
-        get_string('emailsubject','block_enrolmenttimer'),
+        'enrolmenttimer/enrolmentemailsubject',
+        get_string('emailsubject', 'block_enrolmenttimer'),
         get_string('emailsubject_help', 'block_enrolmenttimer'),
         get_string('emailsubject_expiring_default', 'block_enrolmenttimer')
     ));
 
     $settings->add(new admin_setting_confightmleditor(
-        'enrolmenttimer/timeleftmessage', 
-        get_string('timeleftmessage','block_enrolmenttimer'),
+        'enrolmenttimer/timeleftmessage',
+        get_string('timeleftmessage', 'block_enrolmenttimer'),
         get_string('timeleftmessage_help', 'block_enrolmenttimer'),
         ''
     ));
 
-    /** 
-    *   Course Completed Message Settings
-    */
+    // Course Completed Message Settings.
     $settings->add(new admin_setting_heading('notificationsheadingcompletion',
         get_string('settings_notifications_completion', 'block_enrolmenttimer'), ''));
 
     $settings->add(new admin_setting_configcheckbox(
-    	'enrolmenttimer/completionsmessagechk', 
-    	get_string('completionsmessagechk', 'block_enrolmenttimer'),
+        'enrolmenttimer/completionsmessagechk',
+        get_string('completionsmessagechk', 'block_enrolmenttimer'),
         get_string('completionsmessagechk_help', 'block_enrolmenttimer'),
         0
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/completionpercentage', 
-        get_string('completionpercentage','block_enrolmenttimer'),
+        'enrolmenttimer/completionpercentage',
+        get_string('completionpercentage', 'block_enrolmenttimer'),
         get_string('completionpercentage_help', 'block_enrolmenttimer'),
         '100'
     ));
 
     $settings->add(new admin_setting_configtext(
-        'enrolmenttimer/completionemailsubject', 
-        get_string('emailsubject','block_enrolmenttimer'),
+        'enrolmenttimer/completionemailsubject',
+        get_string('emailsubject', 'block_enrolmenttimer'),
         get_string('emailsubject_help', 'block_enrolmenttimer'),
         get_string('emailsubject_completion_default', 'block_enrolmenttimer')
     ));
 
 
     $settings->add(new admin_setting_confightmleditor(
-        'enrolmenttimer/completionsmessage', 
-        get_string('completionsmessage','block_enrolmenttimer'),
+        'enrolmenttimer/completionsmessage',
+        get_string('completionsmessage', 'block_enrolmenttimer'),
         get_string('completionsmessage_help', 'block_enrolmenttimer'),
         ''
     ));

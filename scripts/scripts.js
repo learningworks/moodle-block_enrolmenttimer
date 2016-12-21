@@ -20,119 +20,112 @@
  * @copyright  2014 Aaron Leggett - LearningWorks Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(['jquery'], function($) { // moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery
+define(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
+    var options = [];
+    var arrayKeys = [];
+    var timestamp = 0;
+    var forceTwoDigits = false;
 
-var options = [];
-var arrayKeys = [];
-var timestamp = 0;
-var forceTwoDigits = false;
+    $(document).ready(function() {
 
-$(document).ready(function() {
-	console.log('loaded');
-	if($('.block_enrolmenttimer .active').length > 0){
-		getDisplayedOptions();
-		populateWithData();
-		makeTimestamp();
+        function getDisplayedOptions(){
+            var children = $('.block_enrolmenttimer .active .timer-wrapper').find('.timerNum');
 
-		console.log('here');
-		//create timer
-		window.setInterval(function(){
-			updateLiveCounter();
-		}, 1000);
-	}
+            for (var i = children.length - 1; i >= 0; i--) {
+                var arrayKey = $(children[i]).attr('data-id');
+                arrayKeys.push(arrayKey);
+            }
+        }
 
-	if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0){
-		forceTwoDigits = true;
-	}
-});
+        function populateWithData(){
+            for (var i = arrayKeys.length - 1; i >= 0; i--) {
+                var option = $('.block_enrolmenttimer .active .text-desc .' + arrayKeys[i]).text();
+                options[arrayKeys[i]] = option;
+            }
+        }
 
-function getDisplayedOptions(){
-	var children = $('.block_enrolmenttimer .active .timer-wrapper').find('.timerNum');
+        function makeTimestamp(){
+            for (var i = arrayKeys.length - 1; i >= 0; i--) {
+                switch(arrayKeys[i]){
+                    case 'seconds':
+                        timestamp += parseInt(options[arrayKeys[i]], 10);
+                        break;
 
-	for (var i = children.length - 1; i >= 0; i--) {
-		var arrayKey = $(children[i]).attr('data-id');
-		arrayKeys.push(arrayKey);
-	};
-}
+                    case 'minutes':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 60;
+                        break;
 
-function populateWithData(){
-	var counts = [];
+                    case 'hours':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 3600;
+                        break;
 
-	for (var i = arrayKeys.length - 1; i >= 0; i--) {
-		var option = $('.block_enrolmenttimer .active .text-desc .'+arrayKeys[i]).text();
-		options[arrayKeys[i]] = option;
-	};
-}
+                    case 'days':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 86400;
+                        break;
 
-function makeTimestamp(){
-	for (var i = arrayKeys.length - 1; i >= 0; i--) {
-		switch(arrayKeys[i]){
-			case 'seconds':
-				timestamp += parseInt(options[arrayKeys[i]], 10);
-				break;
+                    case 'weeks':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 604800;
+                        break;
 
-			case 'minutes':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 60;
-				break;
+                    case 'months':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 2592000;
+                        break;
 
-			case 'hours':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 3600;
-				break;
+                    case 'years':
+                        timestamp += parseInt(options[arrayKeys[i]], 10) * 31536000;
+                        break;
+                }
+            }
+        }
 
-			case 'days':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 86400;
-				break;
+        function updateMainCounter(counter, time){
+            var html = '';
+            if(forceTwoDigits === true && time.toString().length == 1){
+                html += '<span class="timerNumChar" data-id="0">0</span>';
+                html += '<span class="timerNumChar" data-id="1">' + time.toString() + '</span>';
+            } else {
+                for (var i = 0; i < time.toString().length; i++) {
+                    html += '<span class="timerNumChar" data-id="' + i + '">' + time.toString().charAt(i) + '</span>';
+                }
+            }
 
-			case 'weeks':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 604800;
-				break;
+            $('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="' + counter + '"]').html(html);
+            $('.block_enrolmenttimer .active .text-desc .' + counter).html(time);
+        }
 
-			case 'months':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 2592000;
-				break;
+        function updateLiveCounter() {
+            timestamp--;
+            var time = timestamp;
+            var tokens = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
+            var units = ['31536000', '2592000', '604800', '86400', '3600', '60', '1'];
 
-			case 'years':
-				timestamp += parseInt(options[arrayKeys[i]], 10) * 31536000;
-				break;
-		}
-	};
-}
+            for (var i = 0; i < tokens.length; i++) {
 
-function updateLiveCounter() {
-	timestamp--;
-	var time = timestamp;
-	var tokens = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
-	var units = ['31536000', '2592000', '604800', '86400', '3600', '60', '1'];
+                if (arrayKeys.indexOf(tokens[i]) != -1) {
+                    if (time >= units[i]) {
+                        var count = Math.floor(time / units[i]);
+                        updateMainCounter(tokens[i], count);
+                        time = time - (count * units[i]);
+                    } else {
+                        updateMainCounter(tokens[i], 0);
+                    }
+                }
+            }
+        }
 
-	//alert(tokens);
-	for (var i = 0; i < tokens.length; i++) {
+        if($('.block_enrolmenttimer .active').length > 0){
+            getDisplayedOptions();
+            populateWithData();
+            makeTimestamp();
 
-		if (arrayKeys.indexOf(tokens[i]) != -1) {
-			if (time >= units[i]) {
-				var count = Math.floor(time / units[i]);
-				updateMainCounter(tokens[i], count);
-				time = time - (count * units[i]);
-			} else {
-				updateMainCounter(tokens[i], 0);
-			}
-			//}
-		}
-	}
-}
+            // Create timer.
+            window.setInterval(function(){
+                updateLiveCounter();
+            }, 1000);
+        }
 
-function updateMainCounter(counter, time){
-	var html = '';
-	if(forceTwoDigits == true && time.toString().length == 1){
-		html += '<span class="timerNumChar" data-id="0">0</span>';
-		html += '<span class="timerNumChar" data-id="1">'+ time.toString() +'</span>';
-	}else{
-		for (var i = 0; i < time.toString().length; i++) {
-			html += '<span class="timerNumChar" data-id="'+ i +'">'+ time.toString().charAt(i) +'</span>';
-		};
-	}
-
-	$('.block_enrolmenttimer .active .timer-wrapper .timerNum[data-id="'+counter+'"]').html(html);
-	$('.block_enrolmenttimer .active .text-desc .'+counter).html(time);
-}
-
+        if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0){
+            forceTwoDigits = true;
+        }
+    });
 });

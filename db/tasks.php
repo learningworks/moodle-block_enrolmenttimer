@@ -13,18 +13,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
-/**
- * Version File
- *
- * @package    block_enrolmenttimer
- * @copyright  LearningWorks Ltd 2016
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-defined('MOODLE_INTERNAL') || die();
-$plugin->version = 2016122101;  // YYYYMMDDHH (year, month, day, 24-hr time).
-$plugin->requires = 2015051100; // YYYYMMDDHH (This is the release version for Moodle).
-$plugin->component = 'block_enrolmenttimer';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.2.0';
+defined('MOODLE_INTERNAL') || die;
+$tasks = array(
+    array(
+        'classname' => 'block_enrolmenttimer\task\enrolmenttimer_task',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '24',
+        'day' => '*',
+        'dayofweek' => '1',
+        'month' => '*'
+    )
+);
