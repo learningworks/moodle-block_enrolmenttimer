@@ -42,7 +42,15 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
         $instances = $DB->get_records( 'block_instances', array('blockname' => 'enrolmenttimer') );
 
         // Will never return null, otherwise we wouldnt be in the cron method.
-        $crontime = 3600;
+
+        if ($this->get_minute() == '*') {
+            $crontime = 60;
+        } else if (explode('*/', $this->get_minute())) {
+            $arr = explode('*/', $this->get_minute());
+            $crontime = $arr[1] * 60;
+        } else {
+            $crontime = $this->get_minute() * 60;
+        }
 
         // Iterate over the instances.
         foreach ($instances as $instance) {
@@ -64,6 +72,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                 // Send Notification Emails.
                 if (get_config('enrolmenttimer', 'timeleftmessagechk') == 1) {
                     $records = block_enrolmenttimer_get_enrolment_records($user->id, $course->id);
+
                     if (isset($records[$user->id])) {
                         $record = $records[$user->id];
                         if (is_object($record) || $record->timeend != 0 ) {
@@ -74,12 +83,6 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
 
                             // Calculate timestamp at which to stop alerting user.
                             $enrolmentstopalertperiod = (int)$enrolmentalerttime + $crontime;
-                            mtrace('//////*********////////');
-                            mtrace("User id ".$user->id);
-                            mtrace("enrolmentAlertTime ".$enrolmentalerttime);
-                            mtrace("enrolmentStopAlertTime ".$enrolmentstopalertperiod);
-
-                            mtrace("Current Time ".time());
 
                             if ($enrolmentalerttime < time() && $enrolmentstopalertperiod > time()) {
                                 // Send the email to the user.
@@ -133,8 +136,6 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                 }
             }
         }
-
         return true;
-
     }
 }

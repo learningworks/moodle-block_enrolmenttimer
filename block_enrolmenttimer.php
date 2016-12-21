@@ -130,9 +130,7 @@ class block_enrolmenttimer extends block_base {
                 } else {
                     $text .= rtrim($unit, "s").' ';
                 }
-
                 $counter++;
-
             }
             $this->content->text .= '</div>';
             $this->content->text .= '</div>';
@@ -146,11 +144,8 @@ class block_enrolmenttimer extends block_base {
             $this->content->text .= '<p class="sub-text">'.get_string('expirytext', 'block_enrolmenttimer').'</p>';
             $this->content->text .= '</div>';
         }
-
         $this->content->text .= '</div>';
-
         $this->content->footer = '';
-
         return $this->content;
     }//closing get_content()
 }//closing class definition

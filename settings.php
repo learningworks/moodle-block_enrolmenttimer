@@ -50,7 +50,7 @@ if ($ADMIN->fulltree) {
         'enrolmenttimer/forceTwoDigits',
         get_string('forceTwoDigits', 'block_enrolmenttimer'),
         get_string('forceTwoDigits_help', 'block_enrolmenttimer'),
-        0
+        1
     ));
 
     $settings->add(new admin_setting_configcheckbox(
