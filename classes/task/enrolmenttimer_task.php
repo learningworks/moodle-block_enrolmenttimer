@@ -78,13 +78,15 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                         if (is_object($record) || $record->timeend != 0 ) {
                             // Calculate timestamp at which to alert the user.
                             $enrolmentend = (int)$record->timeend;
-                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * $crontime; // Daystoalert ment to be hours?.
+
+                            // Their enrolment does not end. Break out.
+                            if ($enrolmentend === 0) {
+                                break;
+                            }
+                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * 86400; // Daystoalert ment to be hours?.
                             $enrolmentalerttime = $enrolmentend - $enrolmentalertperiod;
 
-                            // Calculate timestamp at which to stop alerting user.
-                            $enrolmentstopalertperiod = (int)$enrolmentalerttime + $crontime;
-
-                            if ($enrolmentalerttime < time() && $enrolmentstopalertperiod > time()) {
+                            if ($enrolmentalerttime > time() && $enrolmentalerttime < $this->get_next_scheduled_time()) {
                                 // Send the email to the user.
                                 mtrace("prepping mail to learner.");
                                 $from = \core_user::get_support_user();
