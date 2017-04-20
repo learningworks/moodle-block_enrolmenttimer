@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Scheduled task for enrolment timer
+ * @package    block_enrolmenttimer
+ * @copyright  LearningWorks Ltd 2016
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace block_enrolmenttimer\task;
 defined('MOODLE_INTERNAL') || die;
 if (!defined('__ROOT__')) {
@@ -21,12 +28,26 @@ if (!defined('__ROOT__')) {
 }
 require_once(__ROOT__.'../../../../config.php');
 
+/**
+ * Class enrolmenttimer_task
+ * @package    block_enrolmenttimer
+ * @copyright  LearningWorks Ltd 2016
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class enrolmenttimer_task extends \core\task\scheduled_task {
+    /**
+     * Return the name of the Scheduled task.
+     * @return string
+     */
     public function get_name() {
         // Shown in admin screens.
         return get_string('pluginname', 'block_enrolmenttimer');
     }
 
+    /**
+     * The task that is run during crom.
+     * @return bool
+     */
     public function execute() {
         global $CFG, $DB;
         mtrace( "block/enrolmenttimer - Cron is beginning" );
@@ -75,16 +96,14 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
 
                     if (isset($records[$user->id])) {
                         $record = $records[$user->id];
-                        if (is_object($record) || $record->timeend != 0 ) {
+                        if (is_object($record) && $record->timeend != 0 ) {
                             // Calculate timestamp at which to alert the user.
                             $enrolmentend = (int)$record->timeend;
-                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * $crontime; // Daystoalert ment to be hours?.
+
+                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * 86400; // Daystoalert ment to be hours?.
                             $enrolmentalerttime = $enrolmentend - $enrolmentalertperiod;
 
-                            // Calculate timestamp at which to stop alerting user.
-                            $enrolmentstopalertperiod = (int)$enrolmentalerttime + $crontime;
-
-                            if ($enrolmentalerttime < time() && $enrolmentstopalertperiod > time()) {
+                            if ($enrolmentalerttime >= time() && $enrolmentalerttime <= $this->get_next_scheduled_time()) {
                                 // Send the email to the user.
                                 mtrace("prepping mail to learner.");
                                 $from = \core_user::get_support_user();

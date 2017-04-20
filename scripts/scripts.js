@@ -28,7 +28,7 @@ define(['jquery'], function($) { // Moodle needs this to recognise $ https://doc
 
     $(document).ready(function() {
 
-        function getDisplayedOptions(){
+        function getDisplayedOptions() {
             var children = $('.block_enrolmenttimer .active .timer-wrapper').find('.timerNum');
 
             for (var i = children.length - 1; i >= 0; i--) {
@@ -37,16 +37,16 @@ define(['jquery'], function($) { // Moodle needs this to recognise $ https://doc
             }
         }
 
-        function populateWithData(){
+        function populateWithData() {
             for (var i = arrayKeys.length - 1; i >= 0; i--) {
                 var option = $('.block_enrolmenttimer .active .text-desc .' + arrayKeys[i]).text();
                 options[arrayKeys[i]] = option;
             }
         }
 
-        function makeTimestamp(){
+        function makeTimestamp() {
             for (var i = arrayKeys.length - 1; i >= 0; i--) {
-                switch(arrayKeys[i]){
+                switch(arrayKeys[i]) {
                     case 'seconds':
                         timestamp += parseInt(options[arrayKeys[i]], 10);
                         break;
@@ -78,9 +78,9 @@ define(['jquery'], function($) { // Moodle needs this to recognise $ https://doc
             }
         }
 
-        function updateMainCounter(counter, time){
+        function updateMainCounter(counter, time) {
             var html = '';
-            if(forceTwoDigits === true && time.toString().length == 1){
+            if(forceTwoDigits === true && time.toString().length == 1) {
                 html += '<span class="timerNumChar" data-id="0">0</span>';
                 html += '<span class="timerNumChar" data-id="1">' + time.toString() + '</span>';
             } else {
@@ -113,18 +113,18 @@ define(['jquery'], function($) { // Moodle needs this to recognise $ https://doc
             }
         }
 
-        if($('.block_enrolmenttimer .active').length > 0){
+        if($('.block_enrolmenttimer .active').length > 0) {
             getDisplayedOptions();
             populateWithData();
             makeTimestamp();
 
             // Create timer.
-            window.setInterval(function(){
+            window.setInterval(function() {
                 updateLiveCounter();
             }, 1000);
         }
 
-        if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0){
+        if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0) {
             forceTwoDigits = true;
         }
     });

@@ -15,23 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main file to display the block
- *
+ * Main file to display the block.
  * @package    block_enrolmenttimer
  * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
+
+/**
+ * Class block_enrolmenttimer
+ * @package    block_enrolmenttimer
+ * @copyright  LearningWorks Ltd 2016
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_enrolmenttimer extends block_base {
+    /**
+     * Initialize the block.
+     */
     public function init() {
         $this->title = get_string('enrolmenttimer', 'block_enrolmenttimer');
-    }//closing init()
+    }
 
+    /**
+     * Tell Moodle we have a config file.
+     * @return bool
+     */
     public function has_config() {
         return true;
-    }//closing has_config()
+    }
 
+    /**
+     * Tell Moodle where this block can be.
+     * @return array
+     */
     public function applicable_formats() {
         return array(
                'site-index' => false,
@@ -39,8 +56,11 @@ class block_enrolmenttimer extends block_base {
         'course-view-social' => true,
                       'mod' => true
         );
-    }//closing //applicable_formats()
+    }
 
+    /**
+     * Tell Moodle we have some specializations.
+     */
     public function specialization() {
 
         $this->title = get_string('enrolmenttimer', 'block_enrolmenttimer');
@@ -51,8 +71,12 @@ class block_enrolmenttimer extends block_base {
 
         $this->viewoptions = get_config('enrolmenttimer', 'viewoptions');
 
-    }//closing specialization
+    }
 
+    /**
+     * Get the output of the block since it has been called on a course page.
+     * @return stdClass|stdObject
+     */
     public function get_content() {
         global $CFG;
         require_once($CFG->dirroot . '/blocks/enrolmenttimer/locallib.php');
@@ -147,5 +171,5 @@ class block_enrolmenttimer extends block_base {
         $this->content->text .= '</div>';
         $this->content->footer = '';
         return $this->content;
-    }//closing get_content()
-}//closing class definition
+    }
+}

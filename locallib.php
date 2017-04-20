@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Checks the timeleft on enrolment in a given course
  *
- * @param string $filepath - filepath of the XML file to read in
+ * @param String $unitstoshow
  * @return array from the XML file
  */
 function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
@@ -72,6 +72,12 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
     }
 }
 
+/**
+ * Return enrolment records.
+ * @param int $userid
+ * @param int $courseid
+ * @return array
+ */
 function block_enrolmenttimer_get_enrolment_records($userid, $courseid) {
     global $DB;
 
@@ -84,6 +90,10 @@ function block_enrolmenttimer_get_enrolment_records($userid, $courseid) {
     return $DB->get_records_sql($sql, array($userid, $courseid));
 }
 
+/**
+ * Return the values for different periods.
+ * @return array
+ */
 function block_enrolmenttimer_get_units() {
     return array (
         get_string('key_years', 'block_enrolmenttimer')     => 31536000,
@@ -96,6 +106,11 @@ function block_enrolmenttimer_get_units() {
     );
 }
 
+/**
+ * Sorting the units we will show the user.
+ * @param array $idstring
+ * @return array
+ */
 function block_enrolmenttimer_sort_units_to_show($idstring) {
     $idarray = explode(',', $idstring);
     // Array of array positions eg 1,2,3 tha where selected on the settings menu.
