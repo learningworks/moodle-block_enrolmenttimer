@@ -23,8 +23,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-$plugin->version = 2017042000;  // YYYYMMDDHH (year, month, day, 24-hr time).
+$plugin->version = 2017051200;  // YYYYMMDDHH (year, month, day, 24-hr time).
 $plugin->requires = 2015051100; // YYYYMMDDHH (This is the release version for Moodle).
 $plugin->component = 'block_enrolmenttimer';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.2.1';
+$plugin->release = '3.3.0';
