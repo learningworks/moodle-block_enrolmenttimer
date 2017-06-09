@@ -20,7 +20,7 @@
  * @copyright  2014 Aaron Leggett - LearningWorks Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
+require(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
     var options = [];
     var arrayKeys = [];
     var timestamp = 0;

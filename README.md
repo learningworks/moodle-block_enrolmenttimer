@@ -15,6 +15,9 @@ The plugin has been developed with limited styling to enable the best possible b
 
 VERSION UPDATES
 ===============
+Version 2017060900
+- Change the define() to require() to prevent mismatch error.
+
 Version 2016122101
 - Compliance with Moodle Travis CI, Moved from cron to Scheduled task, Tested against moodle 2.9, 3.0, 3.1.3+, 3.2
 
