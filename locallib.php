@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return array from the XML file
  */
 function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
-    global $COURSE, $USER;
+    global $COURSE, $USER, $DB;
 
     $context = context_course::instance($COURSE->id);
 
@@ -46,8 +46,34 @@ function block_enrolmenttimer_get_remaining_enrolment_period($unitstoshow) {
         }
     }
 
-    if (!is_object($record) || $record->timeend == 0 ) {
+    if (!is_object($record)) {
         return false;
+    } else if ($record->timeend == 0 ) {
+        $timeend = $DB->get_record('enrol', array('enrol' => 'self', 'id' => $record->enrolid), 'enrolenddate');
+        if (isset($timeend->enrolenddate) && (int) $timeend->enrolenddate > 0) {
+            $timedifference = (int) $timeend->enrolenddate - time();
+            $result = array();
+
+            if (empty($unitstoshow)) {
+                // They have not selected any, so show all.
+                $unitstoshow = block_enrolmenttimer_get_units();
+            } else {
+                // Have the selected units, but we only have id's for their values.
+                $unitstoshow = block_enrolmenttimer_sort_units_to_show($unitstoshow);
+            }
+
+            foreach ($unitstoshow as $text => $unit) {
+                if ($timedifference > $unit) {
+                    $count = floor($timedifference / $unit);
+                    $result[$text] = $count;
+                    $timedifference = $timedifference - ($count * $unit);
+                }
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
     } else {
         $timedifference = (int)$record->timeend - time();
         $result = array();
@@ -82,7 +108,7 @@ function block_enrolmenttimer_get_enrolment_records($userid, $courseid) {
     global $DB;
 
     $sql = '
-        SELECT ue.userid, ue.id, ue.timestart, ue.timeend
+        SELECT ue.userid, ue.id, ue.timestart, ue.timeend, ue.enrolid
         FROM {user_enrolments} ue
         JOIN {enrol} e on ue.enrolid = e.id
         WHERE ue.userid = ? AND e.courseid = ?

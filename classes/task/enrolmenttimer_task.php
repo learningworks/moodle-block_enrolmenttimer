@@ -87,7 +87,6 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
             $course = $DB->get_record('course', array('id' => $courseid));
             $coursecontext = \context_course::instance($course->id);
             $users = get_role_users(5, $coursecontext);
-
             // Loop through - check days left alert and completion.
             foreach ($users as $user) {
                 // Send Notification Emails.
@@ -118,6 +117,12 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
 
                                 $textonlybody = strip_tags($body);
                                 email_to_user($user, $from, $subject, $textonlybody, $body);
+                            }
+                        } else if ($record->timeend == 0) {
+                            $timeend = $DB->get_record('enrol', array('enrol' => 'self', 'id' => $record->enrolid), 'enrolenddate');
+                            if (isset($timeend->enrolenddate) && (int) $timeend->enrolenddate > 0) {
+                                var_dump('time end set');
+                                var_dump($timeend);
                             }
                         }
                     }
