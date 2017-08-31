@@ -1,5 +1,6 @@
 moodle-enrolmenttimer
 =====================
+[![Build Status](https://travis-ci.org/learningworks/moodle-block_enrolmenttimer.svg?branch=master)](https://travis-ci.org/learningworks/moodle-block_enrolmenttimer)
 
 Moodle Block - enrolmenttimer
 Developed by - Aaron Leggett - LearningWorks Ltd
@@ -15,6 +16,11 @@ The plugin has been developed with limited styling to enable the best possible b
 
 VERSION UPDATES
 ===============
+Version 2017083000
+- Modify the alerttime notification so it is now stored in a log that is then processed
+- Add in support for self-enrolment enrolment types. Done by looking at the current instance if no end time set check if 
+the instance is a self enrolment and get the end date if set
+
 Version 2017060900
 - Change the define() to require() to prevent mismatch error.
 

@@ -21,7 +21,7 @@
  * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+defined('MOODLE_INTERNAL') || die;
 function xmldb_block_enrolmenttimer_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();

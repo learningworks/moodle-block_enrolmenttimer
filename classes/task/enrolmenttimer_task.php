@@ -22,7 +22,7 @@
  */
 
 namespace block_enrolmenttimer\task;
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 if (!defined('__ROOT__')) {
     define('__ROOT__', dirname(dirname(__FILE__)));
 }
@@ -98,31 +98,27 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                         if (is_object($record) && $record->timeend != 0 ) {
                             // Calculate timestamp at which to alert the user.
                             $enrolmentend = (int)$record->timeend;
-
                             $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * 86400; // Daystoalert ment to be hours?.
                             $enrolmentalerttime = $enrolmentend - $enrolmentalertperiod;
 
-                            if ($enrolmentalerttime >= time() && $enrolmentalerttime <= $this->get_next_scheduled_time()) {
-                                // Send the email to the user.
-                                mtrace("prepping mail to learner.");
-                                $from = \core_user::get_support_user();
-                                $subject = get_config('enrolmenttimer', 'enrolmentemailsubject');
-                                $body = get_config('enrolmenttimer', 'timeleftmessage');
-
-                                // Personalise subject words.
-                                $body = str_replace("[[user_name]]", $user->firstname, $body);
-                                $body = str_replace("[[course_name]]", $course->fullname, $body);
-                                $body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer',
-                                    'daystoalertenrolmentend'), $body);
-
-                                $textonlybody = strip_tags($body);
-                                email_to_user($user, $from, $subject, $textonlybody, $body);
+                            if (!$DB->record_exists('block_enrolmenttimer', array('enrolid' => $record->id))) {
+                                $object = new \stdClass();
+                                $object->enrolid = $record->id;
+                                $object->alerttime = $enrolmentalerttime;
+                                $object->sent = false;
+                                $DB->insert_record('block_enrolmenttimer', $object);
                             }
                         } else if ($record->timeend == 0) {
                             $timeend = $DB->get_record('enrol', array('enrol' => 'self', 'id' => $record->enrolid), 'enrolenddate');
                             if (isset($timeend->enrolenddate) && (int) $timeend->enrolenddate > 0) {
-                                var_dump('time end set');
-                                var_dump($timeend);
+                                // INSERT INTO DB
+                                if (!$DB->record_exists('block_enrolmenttimer', array('enrolid' => $record->id))) {
+                                    $object = new \stdClass();
+                                    $object->enrolid = $record->id;
+                                    $object->alerttime = $timeend->enrolenddate;
+                                    $object->sent = false;
+                                    $DB->insert_record('block_enrolmenttimer', $object);
+                                }
                             }
                         }
                     }
@@ -159,6 +155,34 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                     }
                 }
             }
+        }
+
+        //ITERATE THROUGH ALL UNSENT EMAILS WITH A ALERT TIME OF LESS THAN NOW
+
+        $time = time();
+        $sql = "SELECT * FROM {block_enrolmenttimer} WHERE sent = false AND alerttime < $time";
+        $emailstosend = $DB->get_records_sql($sql);
+
+        foreach ($emailstosend as $key => $value) {
+
+            $enrolinstance = $DB->get_record('user_enrolments', array('id' => $value->enrolid));
+            $user = $DB->get_record('user', array('id' => $enrolinstance->userid));
+            $enrol = $DB->get_record('enrol', array('id' => $enrolinstance->enrolid));
+            $course = $DB->get_record('course', array('id' => $enrol->courseid));
+            mtrace("prepping mail to learner.");
+            $from = \core_user::get_support_user();
+            $subject = get_config('enrolmenttimer', 'enrolmentemailsubject');
+            $body = get_config('enrolmenttimer', 'timeleftmessage');
+
+            // Personalise subject words.
+            $body = str_replace("[[user_name]]", $user->firstname, $body);
+            $body = str_replace("[[course_name]]", $course->fullname, $body);
+            $body = str_replace("[[days_to_alert]]", get_config('enrolmenttimer',
+                'daystoalertenrolmentend'), $body);
+
+            $textonlybody = strip_tags($body);
+            $value->sent = email_to_user($user, $from, $subject, $textonlybody, $body);
+            $DB->update_record('block_enrolmenttimer', $value);
         }
         return true;
     }
