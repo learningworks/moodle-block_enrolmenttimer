@@ -157,7 +157,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
             }
         }
 
-        //ITERATE THROUGH ALL UNSENT EMAILS WITH A ALERT TIME OF LESS THAN NOW
+        // ITERATE THROUGH ALL UNSENT EMAILS WITH A ALERT TIME OF LESS THAN NOW
 
         $time = time();
         $sql = "SELECT * FROM {block_enrolmenttimer} WHERE sent = false AND alerttime < $time";
