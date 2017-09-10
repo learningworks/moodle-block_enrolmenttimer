@@ -46,7 +46,7 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
 
         function makeTimestamp() {
             for (var i = arrayKeys.length - 1; i >= 0; i--) {
-                switch(arrayKeys[i]) {
+                switch (arrayKeys[i]) {
                     case 'seconds':
                         timestamp += parseInt(options[arrayKeys[i]], 10);
                         break;
@@ -80,7 +80,7 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
 
         function updateMainCounter(counter, time) {
             var html = '';
-            if(forceTwoDigits === true && time.toString().length == 1) {
+            if (forceTwoDigits === true && time.toString().length == 1) {
                 html += '<span class="timerNumChar" data-id="0">0</span>';
                 html += '<span class="timerNumChar" data-id="1">' + time.toString() + '</span>';
             } else {
@@ -113,7 +113,7 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
             }
         }
 
-        if($('.block_enrolmenttimer .active').length > 0) {
+        if ($('.block_enrolmenttimer .active').length > 0) {
             getDisplayedOptions();
             populateWithData();
             makeTimestamp();
@@ -124,7 +124,7 @@ require(['jquery'], function($) { // Moodle needs this to recognise $ https://do
             }, 1000);
         }
 
-        if($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0) {
+        if ($('.block_enrolmenttimer .timer-wrapper[data-id=force2]').length > 0) {
             forceTwoDigits = true;
         }
     });
