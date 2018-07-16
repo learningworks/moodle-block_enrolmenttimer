@@ -73,3 +73,8 @@ $string['key_days'] = 'days';
 $string['key_hours'] = 'hours';
 $string['key_minutes'] = 'minutes';
 $string['key_seconds'] = 'seconds';
+
+$string['privacy:metadata:block_enrolmenttimer'] = 'The Enrolment timer block stores a log of sent messages to learners.';
+$string['privacy:metadata:block_enrolmenttimer:enrolid'] = 'The enrolment instance associated to the alert.';
+$string['privacy:metadata:block_enrolmenttimer:alerttime'] = 'The time the alert was generated.';
+$string['privacy:metadata:block_enrolmenttimer:sent'] = 'The Flag used to determine if a message has to be sent.';
