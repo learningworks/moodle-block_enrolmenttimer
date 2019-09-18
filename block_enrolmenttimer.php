@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Class block_enrolmenttimer
+ *
  * @package    block_enrolmenttimer
  * @copyright  LearningWorks Ltd 2016
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -87,7 +88,7 @@ class block_enrolmenttimer extends block_base {
 
         $this->content = new stdClass;
         $this->content->text = '';
-        $this->page->requires->js('/blocks/enrolmenttimer/scripts/scripts.js');
+        $this->page->requires->js_call_amd('block_enrolmenttimer/scripts', 'initialise');
 
         $timeleft = block_enrolmenttimer_get_remaining_enrolment_period($this->viewoptions);
         $this->content->text .= '<div';

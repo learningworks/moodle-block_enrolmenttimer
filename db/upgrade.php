@@ -22,11 +22,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
+
+/**
+ * When upgrading plugin, execute the following code.
+ *
+ * @param int $oldversion - previous version of plugin (from DB).
+ */
 function xmldb_block_enrolmenttimer_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion <= 2017060900) {
+    if ($oldversion < 2017083000) {
 
         // Define table block_enrolmenttimer to be created.
         $table = new xmldb_table('block_enrolmenttimer');
@@ -48,4 +54,8 @@ function xmldb_block_enrolmenttimer_upgrade($oldversion) {
         // Enrolmenttimer savepoint reached.
         upgrade_block_savepoint(true, 2017083000, 'enrolmenttimer');
     }
+
+    // Add future upgrade points here.
+
+    return true;
 }

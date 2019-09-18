@@ -15,16 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version File
+ * Privacy API provider.
  *
  * @package    block_enrolmenttimer
- * @copyright  LearningWorks Ltd 2016
+ * @copyright  2019 onwards LearningWorks Ltd {@link https://learningworks.co.nz/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_enrolmenttimer\privacy;
+
 defined('MOODLE_INTERNAL') || die();
-$plugin->version = 2019091800;  // YYYYMMDDHH (year, month, day, 24-hr time).
-$plugin->requires = 2018051700; // YYYYMMDDHH (This is the 3.5 release version for Moodle).
-$plugin->component = 'block_enrolmenttimer';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.5.0';
+
+
+/**
+ * Class provider - implements core to leverage the Privacy API.
+ *
+ * @copyright  2019 onwards LearningWorks Ltd {@link https://learningworks.co.nz/}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements
+    // This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider {
+
+    /**
+     * This plugin stores no data - null provider.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
