@@ -62,7 +62,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
         // Get the instances of the block.
         $instances = $DB->get_records( 'block_instances', array('blockname' => 'enrolmenttimer') );
 
-        // Will never return null, otherwise we wouldnt be in the cron method.
+        // Will never return null, otherwise we wouldn't be in the cron method.
 
         if ($this->get_minute() == '*') {
             $crontime = 60;
@@ -98,7 +98,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                         if (is_object($record) && $record->timeend != 0 ) {
                             // Calculate timestamp at which to alert the user.
                             $enrolmentend = (int)$record->timeend;
-                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * 86400; // Daystoalert ment to be hours?.
+                            $enrolmentalertperiod = (int)get_config('enrolmenttimer', 'daystoalertenrolmentend') * 86400; // Daystoalert meant to be hours?.
                             $enrolmentalerttime = $enrolmentend - $enrolmentalertperiod;
 
                             if (!$DB->record_exists('block_enrolmenttimer', array('enrolid' => $record->id))) {
@@ -111,7 +111,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
                         } else if ($record->timeend == 0) {
                             $timeend = $DB->get_record('enrol', array('enrol' => 'self', 'id' => $record->enrolid), 'enrolenddate');
                             if (isset($timeend->enrolenddate) && (int) $timeend->enrolenddate > 0) {
-                                // INSERT INTO DB
+                                // INSERT INTO DB.
                                 if (!$DB->record_exists('block_enrolmenttimer', array('enrolid' => $record->id))) {
                                     $object = new \stdClass();
                                     $object->enrolid = $record->id;
@@ -157,7 +157,7 @@ class enrolmenttimer_task extends \core\task\scheduled_task {
             }
         }
 
-        // ITERATE THROUGH ALL UNSENT EMAILS WITH A ALERT TIME OF LESS THAN NOW
+        // ITERATE THROUGH ALL UNSENT EMAILS WITH A ALERT TIME OF LESS THAN NOW.
 
         $time = time();
         $sql = "SELECT * FROM {block_enrolmenttimer} WHERE sent = false AND alerttime < $time";

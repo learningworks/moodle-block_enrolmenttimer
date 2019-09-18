@@ -13,6 +13,11 @@
     "composer/installers": "*"
   },
   "extra": {
-    "installer-name": "configurable_reports"
+    "installer-name": "enrolment_timer"
+  },
+  "support": {
+    "issues": "https://github.com/learningworks/moodle-block_enrolmenttimer/issues",
+    "source": "https://github.com/learningworks/moodle-block_enrolmenttimer"
   }
 }
+

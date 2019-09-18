@@ -73,3 +73,5 @@ $string['key_days'] = 'days';
 $string['key_hours'] = 'hours';
 $string['key_minutes'] = 'minutes';
 $string['key_seconds'] = 'seconds';
+
+$string['privacy:metadata'] = 'The Enrolment Timer block only processes user data.';
