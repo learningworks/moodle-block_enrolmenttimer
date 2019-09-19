@@ -25,12 +25,11 @@
  */
 define(['jquery'], function($) { // Moodle needs this to recognise $ https://docs.moodle.org/dev/jQuery .
     // JQuery is available via $.
-    "use strict";
 
     return {
-        initialise: function () {
+        initialise: function() {
             // Module initialised.
-            $(document).ready(function () {
+            $(document).ready(function() {
                 var options = [];
                 var arrayKeys = [];
                 var timestamp = 0;
@@ -127,7 +126,7 @@ define(['jquery'], function($) { // Moodle needs this to recognise $ https://doc
                     makeTimestamp();
 
                     // Create timer.
-                    window.setInterval(function () {
+                    window.setInterval(function() {
                         updateLiveCounter();
                     }, 1000);
                 }
